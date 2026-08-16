@@ -202,7 +202,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   </TableRow>
                 ))
               : paged.map((row, index) => (
-                  <TableRow key={String(row.id ?? index)} className="hover:bg-accent/30">
+                  <TableRow key={String(row["id"] ?? index)} className="hover:bg-accent/30">
                     {columns.map((col) => (
                       <TableCell
                         key={col.key}
