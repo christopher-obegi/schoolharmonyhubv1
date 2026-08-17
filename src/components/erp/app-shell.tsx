@@ -79,7 +79,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                 return (
                   <li key={item.url}>
                     <Link
-                      to={item.url}
+                      to={item.url as "/"}
                       onClick={onNavigate}
                       className={cn(
                         "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors",
@@ -191,14 +191,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/accounts/profile">Profile & settings</Link>
+                    <Link to={"/accounts/profile" as "/"}>Profile & settings</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/me">My portal</Link>
+                    <Link to={"/me" as "/"}>My portal</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/auth/login" className="text-destructive">
+                    <Link to={"/auth/login" as "/"} className="text-destructive">
                       <LogOut className="mr-2 size-4" /> Sign out
                     </Link>
                   </DropdownMenuItem>
