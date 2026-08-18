@@ -32,23 +32,23 @@ export function ModulePage<T extends Record<string, unknown>>({
   pageSize,
 }: {
   title: string;
-  description?: string;
-  endpoint?: string;
+  description?: string | undefined;
+  endpoint?: string | undefined;
   columns: Column<T>[];
   rows: T[];
-  searchKeys?: string[];
-  searchPlaceholder?: string;
-  filterKey?: keyof T & string;
-  createLabel?: string;
-  createFields?: Field[];
-  tableTitle?: string;
-  tableDescription?: string;
+  searchKeys?: string[] | undefined;
+  searchPlaceholder?: string | undefined;
+  filterKey?: (keyof T & string) | undefined;
+  createLabel?: string | undefined;
+  createFields?: Field[] | undefined;
+  tableTitle?: string | undefined;
+  tableDescription?: string | undefined;
   above?: ReactNode;
   below?: ReactNode;
   extraActions?: ReactNode;
-  emptyTitle?: string;
-  emptyDescription?: string;
-  pageSize?: number;
+  emptyTitle?: string | undefined;
+  emptyDescription?: string | undefined;
+  pageSize?: number | undefined;
 }) {
   const { writable } = useRole();
   const [filter, setFilter] = useState("all");
