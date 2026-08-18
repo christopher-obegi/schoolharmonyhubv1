@@ -33,7 +33,7 @@ export function FilterChips({
   options: string[];
   value: string;
   onChange: (v: string) => void;
-  label?: string;
+  label?: string | undefined;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
@@ -74,13 +74,13 @@ export function DataTable<T extends Record<string, unknown>>({
 }: {
   columns: Column<T>[];
   rows: T[];
-  searchKeys?: string[];
-  searchPlaceholder?: string;
-  pageSize?: number;
-  loading?: boolean;
+  searchKeys?: string[] | undefined;
+  searchPlaceholder?: string | undefined;
+  pageSize?: number | undefined;
+  loading?: boolean | undefined;
   toolbar?: ReactNode;
-  emptyTitle?: string;
-  emptyDescription?: string;
+  emptyTitle?: string | undefined;
+  emptyDescription?: string | undefined;
   emptyAction?: ReactNode;
   rowActions?: (row: T) => ReactNode;
 }) {

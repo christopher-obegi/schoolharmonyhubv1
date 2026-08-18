@@ -14,12 +14,12 @@ export function KpiCard({
 }: {
   label: string;
   value: string;
-  delta?: string;
-  trend?: "up" | "down";
-  hint?: string;
-  icon?: LucideIcon;
-  loading?: boolean;
-  accent?: "teal" | "navy" | "gold";
+  delta?: string | undefined;
+  trend?: "up" | "down" | undefined;
+  hint?: string | undefined;
+  icon?: LucideIcon | undefined;
+  loading?: boolean | undefined;
+  accent?: "teal" | "navy" | "gold" | undefined;
 }) {
   if (loading) {
     return (

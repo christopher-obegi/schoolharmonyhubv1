@@ -7,8 +7,8 @@ export function PageHeader({
   actions,
 }: {
   title: string;
-  description?: string;
-  endpoint?: string;
+  description?: string | undefined;
+  endpoint?: string | undefined;
   actions?: ReactNode;
 }) {
   return (
@@ -36,8 +36,8 @@ export function SectionCard({
   children,
   className = "",
 }: {
-  title?: string;
-  description?: string;
+  title?: string | undefined;
+  description?: string | undefined;
   actions?: ReactNode;
   children: ReactNode;
   className?: string;
@@ -67,7 +67,7 @@ export function EmptyState({
   icon,
 }: {
   title: string;
-  description?: string;
+  description?: string | undefined;
   action?: ReactNode;
   icon?: ReactNode;
 }) {

@@ -54,9 +54,9 @@ export function RecordDialog({
 }: {
   trigger: ReactNode;
   title: string;
-  description?: string;
+  description?: string | undefined;
   fields: Field[];
-  submitLabel?: string;
+  submitLabel?: string | undefined;
   onSubmit?: (values: Record<string, string>) => void;
 }) {
   const [open, setOpen] = useState(false);
