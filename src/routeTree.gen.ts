@@ -10,33 +10,272 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcademicsAcademicYearsRouteImport } from './routes/academics.academic-years'
+import { Route as AcademicsClassesRouteImport } from './routes/academics.classes'
+import { Route as AcademicsStreamsRouteImport } from './routes/academics.streams'
+import { Route as AcademicsSubjectAssignmentsRouteImport } from './routes/academics.subject-assignments'
+import { Route as AcademicsSubjectsRouteImport } from './routes/academics.subjects'
+import { Route as AcademicsTermsRouteImport } from './routes/academics.terms'
+import { Route as AccountsRolesRouteImport } from './routes/accounts.roles'
+import { Route as AccountsUsersRouteImport } from './routes/accounts.users'
+import { Route as AttendanceSessionsRouteImport } from './routes/attendance.sessions'
+import { Route as CoreAuditLogsRouteImport } from './routes/core.audit-logs'
+import { Route as CoreSchoolsRouteImport } from './routes/core.schools'
+import { Route as ExaminationsExamsRouteImport } from './routes/examinations.exams'
+import { Route as ExaminationsGradeScalesRouteImport } from './routes/examinations.grade-scales'
+import { Route as FinanceAccountsRouteImport } from './routes/finance.accounts'
+import { Route as FinanceFeesRouteImport } from './routes/finance.fees'
+import { Route as StudentsDocumentsRouteImport } from './routes/students.documents'
+import { Route as StudentsEnrollmentsRouteImport } from './routes/students.enrollments'
+import { Route as StudentsParentsRouteImport } from './routes/students.parents'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcademicsAcademicYearsRoute = AcademicsAcademicYearsRouteImport.update({
+  id: '/academics/academic-years',
+  path: '/academics/academic-years',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicsClassesRoute = AcademicsClassesRouteImport.update({
+  id: '/academics/classes',
+  path: '/academics/classes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicsStreamsRoute = AcademicsStreamsRouteImport.update({
+  id: '/academics/streams',
+  path: '/academics/streams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicsSubjectAssignmentsRoute =
+  AcademicsSubjectAssignmentsRouteImport.update({
+    id: '/academics/subject-assignments',
+    path: '/academics/subject-assignments',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AcademicsSubjectsRoute = AcademicsSubjectsRouteImport.update({
+  id: '/academics/subjects',
+  path: '/academics/subjects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicsTermsRoute = AcademicsTermsRouteImport.update({
+  id: '/academics/terms',
+  path: '/academics/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsRolesRoute = AccountsRolesRouteImport.update({
+  id: '/accounts/roles',
+  path: '/accounts/roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsUsersRoute = AccountsUsersRouteImport.update({
+  id: '/accounts/users',
+  path: '/accounts/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AttendanceSessionsRoute = AttendanceSessionsRouteImport.update({
+  id: '/attendance/sessions',
+  path: '/attendance/sessions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoreAuditLogsRoute = CoreAuditLogsRouteImport.update({
+  id: '/core/audit-logs',
+  path: '/core/audit-logs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoreSchoolsRoute = CoreSchoolsRouteImport.update({
+  id: '/core/schools',
+  path: '/core/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExaminationsExamsRoute = ExaminationsExamsRouteImport.update({
+  id: '/examinations/exams',
+  path: '/examinations/exams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExaminationsGradeScalesRoute = ExaminationsGradeScalesRouteImport.update({
+  id: '/examinations/grade-scales',
+  path: '/examinations/grade-scales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceAccountsRoute = FinanceAccountsRouteImport.update({
+  id: '/finance/accounts',
+  path: '/finance/accounts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceFeesRoute = FinanceFeesRouteImport.update({
+  id: '/finance/fees',
+  path: '/finance/fees',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentsDocumentsRoute = StudentsDocumentsRouteImport.update({
+  id: '/students/documents',
+  path: '/students/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentsEnrollmentsRoute = StudentsEnrollmentsRouteImport.update({
+  id: '/students/enrollments',
+  path: '/students/enrollments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentsParentsRoute = StudentsParentsRouteImport.update({
+  id: '/students/parents',
+  path: '/students/parents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/academics/academic-years': typeof AcademicsAcademicYearsRoute
+  '/academics/classes': typeof AcademicsClassesRoute
+  '/academics/streams': typeof AcademicsStreamsRoute
+  '/academics/subject-assignments': typeof AcademicsSubjectAssignmentsRoute
+  '/academics/subjects': typeof AcademicsSubjectsRoute
+  '/academics/terms': typeof AcademicsTermsRoute
+  '/accounts/roles': typeof AccountsRolesRoute
+  '/accounts/users': typeof AccountsUsersRoute
+  '/attendance/sessions': typeof AttendanceSessionsRoute
+  '/core/audit-logs': typeof CoreAuditLogsRoute
+  '/core/schools': typeof CoreSchoolsRoute
+  '/examinations/exams': typeof ExaminationsExamsRoute
+  '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
+  '/finance/accounts': typeof FinanceAccountsRoute
+  '/finance/fees': typeof FinanceFeesRoute
+  '/students/documents': typeof StudentsDocumentsRoute
+  '/students/enrollments': typeof StudentsEnrollmentsRoute
+  '/students/parents': typeof StudentsParentsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/academics/academic-years': typeof AcademicsAcademicYearsRoute
+  '/academics/classes': typeof AcademicsClassesRoute
+  '/academics/streams': typeof AcademicsStreamsRoute
+  '/academics/subject-assignments': typeof AcademicsSubjectAssignmentsRoute
+  '/academics/subjects': typeof AcademicsSubjectsRoute
+  '/academics/terms': typeof AcademicsTermsRoute
+  '/accounts/roles': typeof AccountsRolesRoute
+  '/accounts/users': typeof AccountsUsersRoute
+  '/attendance/sessions': typeof AttendanceSessionsRoute
+  '/core/audit-logs': typeof CoreAuditLogsRoute
+  '/core/schools': typeof CoreSchoolsRoute
+  '/examinations/exams': typeof ExaminationsExamsRoute
+  '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
+  '/finance/accounts': typeof FinanceAccountsRoute
+  '/finance/fees': typeof FinanceFeesRoute
+  '/students/documents': typeof StudentsDocumentsRoute
+  '/students/enrollments': typeof StudentsEnrollmentsRoute
+  '/students/parents': typeof StudentsParentsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/academics/academic-years': typeof AcademicsAcademicYearsRoute
+  '/academics/classes': typeof AcademicsClassesRoute
+  '/academics/streams': typeof AcademicsStreamsRoute
+  '/academics/subject-assignments': typeof AcademicsSubjectAssignmentsRoute
+  '/academics/subjects': typeof AcademicsSubjectsRoute
+  '/academics/terms': typeof AcademicsTermsRoute
+  '/accounts/roles': typeof AccountsRolesRoute
+  '/accounts/users': typeof AccountsUsersRoute
+  '/attendance/sessions': typeof AttendanceSessionsRoute
+  '/core/audit-logs': typeof CoreAuditLogsRoute
+  '/core/schools': typeof CoreSchoolsRoute
+  '/examinations/exams': typeof ExaminationsExamsRoute
+  '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
+  '/finance/accounts': typeof FinanceAccountsRoute
+  '/finance/fees': typeof FinanceFeesRoute
+  '/students/documents': typeof StudentsDocumentsRoute
+  '/students/enrollments': typeof StudentsEnrollmentsRoute
+  '/students/parents': typeof StudentsParentsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/academics/academic-years'
+    | '/academics/classes'
+    | '/academics/streams'
+    | '/academics/subject-assignments'
+    | '/academics/subjects'
+    | '/academics/terms'
+    | '/accounts/roles'
+    | '/accounts/users'
+    | '/attendance/sessions'
+    | '/core/audit-logs'
+    | '/core/schools'
+    | '/examinations/exams'
+    | '/examinations/grade-scales'
+    | '/finance/accounts'
+    | '/finance/fees'
+    | '/students/documents'
+    | '/students/enrollments'
+    | '/students/parents'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/academics/academic-years'
+    | '/academics/classes'
+    | '/academics/streams'
+    | '/academics/subject-assignments'
+    | '/academics/subjects'
+    | '/academics/terms'
+    | '/accounts/roles'
+    | '/accounts/users'
+    | '/attendance/sessions'
+    | '/core/audit-logs'
+    | '/core/schools'
+    | '/examinations/exams'
+    | '/examinations/grade-scales'
+    | '/finance/accounts'
+    | '/finance/fees'
+    | '/students/documents'
+    | '/students/enrollments'
+    | '/students/parents'
+  id:
+    | '__root__'
+    | '/'
+    | '/academics/academic-years'
+    | '/academics/classes'
+    | '/academics/streams'
+    | '/academics/subject-assignments'
+    | '/academics/subjects'
+    | '/academics/terms'
+    | '/accounts/roles'
+    | '/accounts/users'
+    | '/attendance/sessions'
+    | '/core/audit-logs'
+    | '/core/schools'
+    | '/examinations/exams'
+    | '/examinations/grade-scales'
+    | '/finance/accounts'
+    | '/finance/fees'
+    | '/students/documents'
+    | '/students/enrollments'
+    | '/students/parents'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcademicsAcademicYearsRoute: typeof AcademicsAcademicYearsRoute
+  AcademicsClassesRoute: typeof AcademicsClassesRoute
+  AcademicsStreamsRoute: typeof AcademicsStreamsRoute
+  AcademicsSubjectAssignmentsRoute: typeof AcademicsSubjectAssignmentsRoute
+  AcademicsSubjectsRoute: typeof AcademicsSubjectsRoute
+  AcademicsTermsRoute: typeof AcademicsTermsRoute
+  AccountsRolesRoute: typeof AccountsRolesRoute
+  AccountsUsersRoute: typeof AccountsUsersRoute
+  AttendanceSessionsRoute: typeof AttendanceSessionsRoute
+  CoreAuditLogsRoute: typeof CoreAuditLogsRoute
+  CoreSchoolsRoute: typeof CoreSchoolsRoute
+  ExaminationsExamsRoute: typeof ExaminationsExamsRoute
+  ExaminationsGradeScalesRoute: typeof ExaminationsGradeScalesRoute
+  FinanceAccountsRoute: typeof FinanceAccountsRoute
+  FinanceFeesRoute: typeof FinanceFeesRoute
+  StudentsDocumentsRoute: typeof StudentsDocumentsRoute
+  StudentsEnrollmentsRoute: typeof StudentsEnrollmentsRoute
+  StudentsParentsRoute: typeof StudentsParentsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +287,155 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/academics/academic-years': {
+      id: '/academics/academic-years'
+      path: '/academics/academic-years'
+      fullPath: '/academics/academic-years'
+      preLoaderRoute: typeof AcademicsAcademicYearsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academics/classes': {
+      id: '/academics/classes'
+      path: '/academics/classes'
+      fullPath: '/academics/classes'
+      preLoaderRoute: typeof AcademicsClassesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academics/streams': {
+      id: '/academics/streams'
+      path: '/academics/streams'
+      fullPath: '/academics/streams'
+      preLoaderRoute: typeof AcademicsStreamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academics/subject-assignments': {
+      id: '/academics/subject-assignments'
+      path: '/academics/subject-assignments'
+      fullPath: '/academics/subject-assignments'
+      preLoaderRoute: typeof AcademicsSubjectAssignmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academics/subjects': {
+      id: '/academics/subjects'
+      path: '/academics/subjects'
+      fullPath: '/academics/subjects'
+      preLoaderRoute: typeof AcademicsSubjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academics/terms': {
+      id: '/academics/terms'
+      path: '/academics/terms'
+      fullPath: '/academics/terms'
+      preLoaderRoute: typeof AcademicsTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/roles': {
+      id: '/accounts/roles'
+      path: '/accounts/roles'
+      fullPath: '/accounts/roles'
+      preLoaderRoute: typeof AccountsRolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/users': {
+      id: '/accounts/users'
+      path: '/accounts/users'
+      fullPath: '/accounts/users'
+      preLoaderRoute: typeof AccountsUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/attendance/sessions': {
+      id: '/attendance/sessions'
+      path: '/attendance/sessions'
+      fullPath: '/attendance/sessions'
+      preLoaderRoute: typeof AttendanceSessionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/core/audit-logs': {
+      id: '/core/audit-logs'
+      path: '/core/audit-logs'
+      fullPath: '/core/audit-logs'
+      preLoaderRoute: typeof CoreAuditLogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/core/schools': {
+      id: '/core/schools'
+      path: '/core/schools'
+      fullPath: '/core/schools'
+      preLoaderRoute: typeof CoreSchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examinations/exams': {
+      id: '/examinations/exams'
+      path: '/examinations/exams'
+      fullPath: '/examinations/exams'
+      preLoaderRoute: typeof ExaminationsExamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examinations/grade-scales': {
+      id: '/examinations/grade-scales'
+      path: '/examinations/grade-scales'
+      fullPath: '/examinations/grade-scales'
+      preLoaderRoute: typeof ExaminationsGradeScalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/accounts': {
+      id: '/finance/accounts'
+      path: '/finance/accounts'
+      fullPath: '/finance/accounts'
+      preLoaderRoute: typeof FinanceAccountsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/fees': {
+      id: '/finance/fees'
+      path: '/finance/fees'
+      fullPath: '/finance/fees'
+      preLoaderRoute: typeof FinanceFeesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/students/documents': {
+      id: '/students/documents'
+      path: '/students/documents'
+      fullPath: '/students/documents'
+      preLoaderRoute: typeof StudentsDocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/students/enrollments': {
+      id: '/students/enrollments'
+      path: '/students/enrollments'
+      fullPath: '/students/enrollments'
+      preLoaderRoute: typeof StudentsEnrollmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/students/parents': {
+      id: '/students/parents'
+      path: '/students/parents'
+      fullPath: '/students/parents'
+      preLoaderRoute: typeof StudentsParentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcademicsAcademicYearsRoute: AcademicsAcademicYearsRoute,
+  AcademicsClassesRoute: AcademicsClassesRoute,
+  AcademicsStreamsRoute: AcademicsStreamsRoute,
+  AcademicsSubjectAssignmentsRoute: AcademicsSubjectAssignmentsRoute,
+  AcademicsSubjectsRoute: AcademicsSubjectsRoute,
+  AcademicsTermsRoute: AcademicsTermsRoute,
+  AccountsRolesRoute: AccountsRolesRoute,
+  AccountsUsersRoute: AccountsUsersRoute,
+  AttendanceSessionsRoute: AttendanceSessionsRoute,
+  CoreAuditLogsRoute: CoreAuditLogsRoute,
+  CoreSchoolsRoute: CoreSchoolsRoute,
+  ExaminationsExamsRoute: ExaminationsExamsRoute,
+  ExaminationsGradeScalesRoute: ExaminationsGradeScalesRoute,
+  FinanceAccountsRoute: FinanceAccountsRoute,
+  FinanceFeesRoute: FinanceFeesRoute,
+  StudentsDocumentsRoute: StudentsDocumentsRoute,
+  StudentsEnrollmentsRoute: StudentsEnrollmentsRoute,
+  StudentsParentsRoute: StudentsParentsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
