@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ModulePage } from "@/components/erp/module-page";
+import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
 import { studentAccounts } from "@/lib/erp-data";
 
@@ -15,7 +16,9 @@ export const Route = createFileRoute("/finance/accounts")({
   component: Page,
 });
 
-const columns = [
+type Row = (typeof studentAccounts)[number];
+
+const columns: Column<Row>[] = [
     { key: "student", header: "Student", sortable: true },
     { key: "class", header: "Class" },
     { key: "invoiced", header: "Invoiced", align: "right" },

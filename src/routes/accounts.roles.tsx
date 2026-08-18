@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ModulePage } from "@/components/erp/module-page";
+import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
 import { roleRows } from "@/lib/erp-data";
 
@@ -15,7 +16,9 @@ export const Route = createFileRoute("/accounts/roles")({
   component: Page,
 });
 
-const columns = [
+type Row = (typeof roleRows)[number];
+
+const columns: Column<Row>[] = [
     { key: "name", header: "Role", sortable: true },
     { key: "scope", header: "Scope" },
     { key: "members", header: "Members", sortable: true, align: "right" },

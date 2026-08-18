@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ModulePage } from "@/components/erp/module-page";
+import type { Column } from "@/components/erp/data-table";
 import { gradeScales } from "@/lib/erp-data";
 
 export const Route = createFileRoute("/examinations/grade-scales")({
@@ -14,7 +15,9 @@ export const Route = createFileRoute("/examinations/grade-scales")({
   component: Page,
 });
 
-const columns = [
+type Row = (typeof gradeScales)[number];
+
+const columns: Column<Row>[] = [
     { key: "grade", header: "Grade", sortable: true },
     { key: "from", header: "From", align: "right" },
     { key: "to", header: "To", align: "right" },
