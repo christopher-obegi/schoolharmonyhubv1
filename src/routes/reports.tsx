@@ -27,7 +27,7 @@ const auditColumns: Column<AuditRow>[] = [
   { key: "actor", header: "Actor", sortable: true },
   { key: "action", header: "Action" },
   { key: "target", header: "Target" },
-  { key: "time", header: "Time", sortable: true },
+  { key: "at", header: "Time", sortable: true },
 ];
 
 const discountColumns: Column<DiscountRow>[] = [
