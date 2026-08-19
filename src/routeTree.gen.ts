@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as AcademicsAcademicYearsRouteImport } from './routes/academics.academic-years'
 import { Route as AcademicsClassesRouteImport } from './routes/academics.classes'
 import { Route as AcademicsStreamsRouteImport } from './routes/academics.streams'
@@ -45,6 +46,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AcademicsAcademicYearsRoute = AcademicsAcademicYearsRouteImport.update({
@@ -177,6 +183,7 @@ const StudentsParentsRoute = StudentsParentsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/reports': typeof ReportsRoute
   '/academics/academic-years': typeof AcademicsAcademicYearsRoute
   '/academics/classes': typeof AcademicsClassesRoute
   '/academics/streams': typeof AcademicsStreamsRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/reports': typeof ReportsRoute
   '/academics/academic-years': typeof AcademicsAcademicYearsRoute
   '/academics/classes': typeof AcademicsClassesRoute
   '/academics/streams': typeof AcademicsStreamsRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/reports': typeof ReportsRoute
   '/academics/academic-years': typeof AcademicsAcademicYearsRoute
   '/academics/classes': typeof AcademicsClassesRoute
   '/academics/streams': typeof AcademicsStreamsRoute
@@ -267,6 +276,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/reports'
     | '/academics/academic-years'
     | '/academics/classes'
     | '/academics/streams'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/reports'
     | '/academics/academic-years'
     | '/academics/classes'
     | '/academics/streams'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/reports'
     | '/academics/academic-years'
     | '/academics/classes'
     | '/academics/streams'
@@ -355,6 +367,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  ReportsRoute: typeof ReportsRoute
   AcademicsAcademicYearsRoute: typeof AcademicsAcademicYearsRoute
   AcademicsClassesRoute: typeof AcademicsClassesRoute
   AcademicsStreamsRoute: typeof AcademicsStreamsRoute
@@ -396,6 +409,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/academics/academic-years': {
@@ -579,6 +599,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  ReportsRoute: ReportsRoute,
   AcademicsAcademicYearsRoute: AcademicsAcademicYearsRoute,
   AcademicsClassesRoute: AcademicsClassesRoute,
   AcademicsStreamsRoute: AcademicsStreamsRoute,
