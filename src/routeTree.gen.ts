@@ -27,6 +27,7 @@ import { Route as CoreSchoolsRouteImport } from './routes/core.schools'
 import { Route as ExaminationsExamsRouteImport } from './routes/examinations.exams'
 import { Route as ExaminationsGradeScalesRouteImport } from './routes/examinations.grade-scales'
 import { Route as ExaminationsMarksRouteImport } from './routes/examinations.marks'
+import { Route as ExaminationsResultsRouteImport } from './routes/examinations.results'
 import { Route as FinanceAccountsRouteImport } from './routes/finance.accounts'
 import { Route as FinanceFeesRouteImport } from './routes/finance.fees'
 import { Route as FinanceInvoicesRouteImport } from './routes/finance.invoices'
@@ -127,6 +128,11 @@ const ExaminationsMarksRoute = ExaminationsMarksRouteImport.update({
   path: '/examinations/marks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExaminationsResultsRoute = ExaminationsResultsRouteImport.update({
+  id: '/examinations/results',
+  path: '/examinations/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceAccountsRoute = FinanceAccountsRouteImport.update({
   id: '/finance/accounts',
   path: '/finance/accounts',
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/examinations/exams': typeof ExaminationsExamsRoute
   '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
   '/examinations/marks': typeof ExaminationsMarksRoute
+  '/examinations/results': typeof ExaminationsResultsRoute
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
   '/finance/invoices': typeof FinanceInvoicesRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/examinations/exams': typeof ExaminationsExamsRoute
   '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
   '/examinations/marks': typeof ExaminationsMarksRoute
+  '/examinations/results': typeof ExaminationsResultsRoute
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
   '/finance/invoices': typeof FinanceInvoicesRoute
@@ -244,6 +252,7 @@ export interface FileRoutesById {
   '/examinations/exams': typeof ExaminationsExamsRoute
   '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
   '/examinations/marks': typeof ExaminationsMarksRoute
+  '/examinations/results': typeof ExaminationsResultsRoute
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
   '/finance/invoices': typeof FinanceInvoicesRoute
@@ -274,6 +283,7 @@ export interface FileRouteTypes {
     | '/examinations/exams'
     | '/examinations/grade-scales'
     | '/examinations/marks'
+    | '/examinations/results'
     | '/finance/accounts'
     | '/finance/fees'
     | '/finance/invoices'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/examinations/exams'
     | '/examinations/grade-scales'
     | '/examinations/marks'
+    | '/examinations/results'
     | '/finance/accounts'
     | '/finance/fees'
     | '/finance/invoices'
@@ -330,6 +341,7 @@ export interface FileRouteTypes {
     | '/examinations/exams'
     | '/examinations/grade-scales'
     | '/examinations/marks'
+    | '/examinations/results'
     | '/finance/accounts'
     | '/finance/fees'
     | '/finance/invoices'
@@ -359,6 +371,7 @@ export interface RootRouteChildren {
   ExaminationsExamsRoute: typeof ExaminationsExamsRoute
   ExaminationsGradeScalesRoute: typeof ExaminationsGradeScalesRoute
   ExaminationsMarksRoute: typeof ExaminationsMarksRoute
+  ExaminationsResultsRoute: typeof ExaminationsResultsRoute
   FinanceAccountsRoute: typeof FinanceAccountsRoute
   FinanceFeesRoute: typeof FinanceFeesRoute
   FinanceInvoicesRoute: typeof FinanceInvoicesRoute
@@ -497,6 +510,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExaminationsMarksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/examinations/results': {
+      id: '/examinations/results'
+      path: '/examinations/results'
+      fullPath: '/examinations/results'
+      preLoaderRoute: typeof ExaminationsResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/accounts': {
       id: '/finance/accounts'
       path: '/finance/accounts'
@@ -575,6 +595,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExaminationsExamsRoute: ExaminationsExamsRoute,
   ExaminationsGradeScalesRoute: ExaminationsGradeScalesRoute,
   ExaminationsMarksRoute: ExaminationsMarksRoute,
+  ExaminationsResultsRoute: ExaminationsResultsRoute,
   FinanceAccountsRoute: FinanceAccountsRoute,
   FinanceFeesRoute: FinanceFeesRoute,
   FinanceInvoicesRoute: FinanceInvoicesRoute,
