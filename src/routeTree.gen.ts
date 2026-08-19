@@ -19,6 +19,7 @@ import { Route as AcademicsSubjectsRouteImport } from './routes/academics.subjec
 import { Route as AcademicsTermsRouteImport } from './routes/academics.terms'
 import { Route as AccountsRolesRouteImport } from './routes/accounts.roles'
 import { Route as AccountsUsersRouteImport } from './routes/accounts.users'
+import { Route as AttendanceMarkRouteImport } from './routes/attendance.mark'
 import { Route as AttendanceSessionsRouteImport } from './routes/attendance.sessions'
 import { Route as CoreAuditLogsRouteImport } from './routes/core.audit-logs'
 import { Route as CoreSchoolsRouteImport } from './routes/core.schools'
@@ -82,6 +83,11 @@ const AccountsRolesRoute = AccountsRolesRouteImport.update({
 const AccountsUsersRoute = AccountsUsersRouteImport.update({
   id: '/accounts/users',
   path: '/accounts/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AttendanceMarkRoute = AttendanceMarkRouteImport.update({
+  id: '/attendance/mark',
+  path: '/attendance/mark',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AttendanceSessionsRoute = AttendanceSessionsRouteImport.update({
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
+  '/attendance/mark': typeof AttendanceMarkRoute
   '/attendance/sessions': typeof AttendanceSessionsRoute
   '/core/audit-logs': typeof CoreAuditLogsRoute
   '/core/schools': typeof CoreSchoolsRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
+  '/attendance/mark': typeof AttendanceMarkRoute
   '/attendance/sessions': typeof AttendanceSessionsRoute
   '/core/audit-logs': typeof CoreAuditLogsRoute
   '/core/schools': typeof CoreSchoolsRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
+  '/attendance/mark': typeof AttendanceMarkRoute
   '/attendance/sessions': typeof AttendanceSessionsRoute
   '/core/audit-logs': typeof CoreAuditLogsRoute
   '/core/schools': typeof CoreSchoolsRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/academics/terms'
     | '/accounts/roles'
     | '/accounts/users'
+    | '/attendance/mark'
     | '/attendance/sessions'
     | '/core/audit-logs'
     | '/core/schools'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/academics/terms'
     | '/accounts/roles'
     | '/accounts/users'
+    | '/attendance/mark'
     | '/attendance/sessions'
     | '/core/audit-logs'
     | '/core/schools'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/academics/terms'
     | '/accounts/roles'
     | '/accounts/users'
+    | '/attendance/mark'
     | '/attendance/sessions'
     | '/core/audit-logs'
     | '/core/schools'
@@ -315,6 +327,7 @@ export interface RootRouteChildren {
   AcademicsTermsRoute: typeof AcademicsTermsRoute
   AccountsRolesRoute: typeof AccountsRolesRoute
   AccountsUsersRoute: typeof AccountsUsersRoute
+  AttendanceMarkRoute: typeof AttendanceMarkRoute
   AttendanceSessionsRoute: typeof AttendanceSessionsRoute
   CoreAuditLogsRoute: typeof CoreAuditLogsRoute
   CoreSchoolsRoute: typeof CoreSchoolsRoute
@@ -400,6 +413,13 @@ declare module '@tanstack/react-router' {
       path: '/accounts/users'
       fullPath: '/accounts/users'
       preLoaderRoute: typeof AccountsUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/attendance/mark': {
+      id: '/attendance/mark'
+      path: '/attendance/mark'
+      fullPath: '/attendance/mark'
+      preLoaderRoute: typeof AttendanceMarkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/attendance/sessions': {
@@ -507,6 +527,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicsTermsRoute: AcademicsTermsRoute,
   AccountsRolesRoute: AccountsRolesRoute,
   AccountsUsersRoute: AccountsUsersRoute,
+  AttendanceMarkRoute: AttendanceMarkRoute,
   AttendanceSessionsRoute: AttendanceSessionsRoute,
   CoreAuditLogsRoute: CoreAuditLogsRoute,
   CoreSchoolsRoute: CoreSchoolsRoute,
