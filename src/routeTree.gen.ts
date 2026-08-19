@@ -26,6 +26,7 @@ import { Route as ExaminationsExamsRouteImport } from './routes/examinations.exa
 import { Route as ExaminationsGradeScalesRouteImport } from './routes/examinations.grade-scales'
 import { Route as FinanceAccountsRouteImport } from './routes/finance.accounts'
 import { Route as FinanceFeesRouteImport } from './routes/finance.fees'
+import { Route as FinanceInvoicesRouteImport } from './routes/finance.invoices'
 import { Route as StudentsIndexRouteImport } from './routes/students.index'
 import { Route as StudentsDocumentsRouteImport } from './routes/students.documents'
 import { Route as StudentsEnrollmentsRouteImport } from './routes/students.enrollments'
@@ -117,6 +118,11 @@ const FinanceFeesRoute = FinanceFeesRouteImport.update({
   path: '/finance/fees',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceInvoicesRoute = FinanceInvoicesRouteImport.update({
+  id: '/finance/invoices',
+  path: '/finance/invoices',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentsIndexRoute = StudentsIndexRouteImport.update({
   id: '/students/',
   path: '/students/',
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
+  '/finance/invoices': typeof FinanceInvoicesRoute
   '/students/documents': typeof StudentsDocumentsRoute
   '/students/enrollments': typeof StudentsEnrollmentsRoute
   '/students/parents': typeof StudentsParentsRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
+  '/finance/invoices': typeof FinanceInvoicesRoute
   '/students/documents': typeof StudentsDocumentsRoute
   '/students/enrollments': typeof StudentsEnrollmentsRoute
   '/students/parents': typeof StudentsParentsRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/examinations/grade-scales': typeof ExaminationsGradeScalesRoute
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
+  '/finance/invoices': typeof FinanceInvoicesRoute
   '/students/documents': typeof StudentsDocumentsRoute
   '/students/enrollments': typeof StudentsEnrollmentsRoute
   '/students/parents': typeof StudentsParentsRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/examinations/grade-scales'
     | '/finance/accounts'
     | '/finance/fees'
+    | '/finance/invoices'
     | '/students/documents'
     | '/students/enrollments'
     | '/students/parents'
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/examinations/grade-scales'
     | '/finance/accounts'
     | '/finance/fees'
+    | '/finance/invoices'
     | '/students/documents'
     | '/students/enrollments'
     | '/students/parents'
@@ -274,6 +285,7 @@ export interface FileRouteTypes {
     | '/examinations/grade-scales'
     | '/finance/accounts'
     | '/finance/fees'
+    | '/finance/invoices'
     | '/students/documents'
     | '/students/enrollments'
     | '/students/parents'
@@ -298,6 +310,7 @@ export interface RootRouteChildren {
   ExaminationsGradeScalesRoute: typeof ExaminationsGradeScalesRoute
   FinanceAccountsRoute: typeof FinanceAccountsRoute
   FinanceFeesRoute: typeof FinanceFeesRoute
+  FinanceInvoicesRoute: typeof FinanceInvoicesRoute
   StudentsDocumentsRoute: typeof StudentsDocumentsRoute
   StudentsEnrollmentsRoute: typeof StudentsEnrollmentsRoute
   StudentsParentsRoute: typeof StudentsParentsRoute
@@ -425,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceFeesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/invoices': {
+      id: '/finance/invoices'
+      path: '/finance/invoices'
+      fullPath: '/finance/invoices'
+      preLoaderRoute: typeof FinanceInvoicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/students/': {
       id: '/students/'
       path: '/students'
@@ -474,6 +494,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExaminationsGradeScalesRoute: ExaminationsGradeScalesRoute,
   FinanceAccountsRoute: FinanceAccountsRoute,
   FinanceFeesRoute: FinanceFeesRoute,
+  FinanceInvoicesRoute: FinanceInvoicesRoute,
   StudentsDocumentsRoute: StudentsDocumentsRoute,
   StudentsEnrollmentsRoute: StudentsEnrollmentsRoute,
   StudentsParentsRoute: StudentsParentsRoute,
