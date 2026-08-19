@@ -27,6 +27,7 @@ import { Route as ExaminationsGradeScalesRouteImport } from './routes/examinatio
 import { Route as FinanceAccountsRouteImport } from './routes/finance.accounts'
 import { Route as FinanceFeesRouteImport } from './routes/finance.fees'
 import { Route as FinanceInvoicesRouteImport } from './routes/finance.invoices'
+import { Route as FinancePaymentsRouteImport } from './routes/finance.payments'
 import { Route as StudentsIndexRouteImport } from './routes/students.index'
 import { Route as StudentsDocumentsRouteImport } from './routes/students.documents'
 import { Route as StudentsEnrollmentsRouteImport } from './routes/students.enrollments'
@@ -123,6 +124,11 @@ const FinanceInvoicesRoute = FinanceInvoicesRouteImport.update({
   path: '/finance/invoices',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinancePaymentsRoute = FinancePaymentsRouteImport.update({
+  id: '/finance/payments',
+  path: '/finance/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentsIndexRoute = StudentsIndexRouteImport.update({
   id: '/students/',
   path: '/students/',
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
   '/finance/invoices': typeof FinanceInvoicesRoute
+  '/finance/payments': typeof FinancePaymentsRoute
   '/students/documents': typeof StudentsDocumentsRoute
   '/students/enrollments': typeof StudentsEnrollmentsRoute
   '/students/parents': typeof StudentsParentsRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
   '/finance/invoices': typeof FinanceInvoicesRoute
+  '/finance/payments': typeof FinancePaymentsRoute
   '/students/documents': typeof StudentsDocumentsRoute
   '/students/enrollments': typeof StudentsEnrollmentsRoute
   '/students/parents': typeof StudentsParentsRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/finance/accounts': typeof FinanceAccountsRoute
   '/finance/fees': typeof FinanceFeesRoute
   '/finance/invoices': typeof FinanceInvoicesRoute
+  '/finance/payments': typeof FinancePaymentsRoute
   '/students/documents': typeof StudentsDocumentsRoute
   '/students/enrollments': typeof StudentsEnrollmentsRoute
   '/students/parents': typeof StudentsParentsRoute
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/finance/accounts'
     | '/finance/fees'
     | '/finance/invoices'
+    | '/finance/payments'
     | '/students/documents'
     | '/students/enrollments'
     | '/students/parents'
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/finance/accounts'
     | '/finance/fees'
     | '/finance/invoices'
+    | '/finance/payments'
     | '/students/documents'
     | '/students/enrollments'
     | '/students/parents'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/finance/accounts'
     | '/finance/fees'
     | '/finance/invoices'
+    | '/finance/payments'
     | '/students/documents'
     | '/students/enrollments'
     | '/students/parents'
@@ -311,6 +323,7 @@ export interface RootRouteChildren {
   FinanceAccountsRoute: typeof FinanceAccountsRoute
   FinanceFeesRoute: typeof FinanceFeesRoute
   FinanceInvoicesRoute: typeof FinanceInvoicesRoute
+  FinancePaymentsRoute: typeof FinancePaymentsRoute
   StudentsDocumentsRoute: typeof StudentsDocumentsRoute
   StudentsEnrollmentsRoute: typeof StudentsEnrollmentsRoute
   StudentsParentsRoute: typeof StudentsParentsRoute
@@ -445,6 +458,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceInvoicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/payments': {
+      id: '/finance/payments'
+      path: '/finance/payments'
+      fullPath: '/finance/payments'
+      preLoaderRoute: typeof FinancePaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/students/': {
       id: '/students/'
       path: '/students'
@@ -495,6 +515,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceAccountsRoute: FinanceAccountsRoute,
   FinanceFeesRoute: FinanceFeesRoute,
   FinanceInvoicesRoute: FinanceInvoicesRoute,
+  FinancePaymentsRoute: FinancePaymentsRoute,
   StudentsDocumentsRoute: StudentsDocumentsRoute,
   StudentsEnrollmentsRoute: StudentsEnrollmentsRoute,
   StudentsParentsRoute: StudentsParentsRoute,
