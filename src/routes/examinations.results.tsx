@@ -48,7 +48,7 @@ function Page() {
             <ComparisonBarChart
               data={[...subjectPerformance]}
               xKey="subject"
-              bars={[{ key: "mean", color: "var(--color-teal)" }]}
+              bars={[{ key: "mean", color: "var(--color-chart-1)" }]}
             />
           </div>
         </SectionCard>

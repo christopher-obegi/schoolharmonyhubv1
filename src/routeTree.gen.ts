@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as MeRouteImport } from './routes/me'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as AcademicsAcademicYearsRouteImport } from './routes/academics.academic-years'
 import { Route as AcademicsClassesRouteImport } from './routes/academics.classes'
@@ -19,6 +20,7 @@ import { Route as AcademicsSubjectAssignmentsRouteImport } from './routes/academ
 import { Route as AcademicsSubjectsRouteImport } from './routes/academics.subjects'
 import { Route as AcademicsTermsRouteImport } from './routes/academics.terms'
 import { Route as AccountsPermissionsRouteImport } from './routes/accounts.permissions'
+import { Route as AccountsProfileRouteImport } from './routes/accounts.profile'
 import { Route as AccountsRolesRouteImport } from './routes/accounts.roles'
 import { Route as AccountsUsersRouteImport } from './routes/accounts.users'
 import { Route as AttendanceMarkRouteImport } from './routes/attendance.mark'
@@ -47,6 +49,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeRoute = MeRouteImport.update({
+  id: '/me',
+  path: '/me',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -88,6 +95,11 @@ const AcademicsTermsRoute = AcademicsTermsRouteImport.update({
 const AccountsPermissionsRoute = AccountsPermissionsRouteImport.update({
   id: '/accounts/permissions',
   path: '/accounts/permissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsProfileRoute = AccountsProfileRouteImport.update({
+  id: '/accounts/profile',
+  path: '/accounts/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountsRolesRoute = AccountsRolesRouteImport.update({
@@ -189,6 +201,7 @@ const StudentsParentsRoute = StudentsParentsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/me': typeof MeRoute
   '/reports': typeof ReportsRoute
   '/academics/academic-years': typeof AcademicsAcademicYearsRoute
   '/academics/classes': typeof AcademicsClassesRoute
@@ -197,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/academics/subjects': typeof AcademicsSubjectsRoute
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/permissions': typeof AccountsPermissionsRoute
+  '/accounts/profile': typeof AccountsProfileRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
   '/attendance/mark': typeof AttendanceMarkRoute
@@ -220,6 +234,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/me': typeof MeRoute
   '/reports': typeof ReportsRoute
   '/academics/academic-years': typeof AcademicsAcademicYearsRoute
   '/academics/classes': typeof AcademicsClassesRoute
@@ -228,6 +243,7 @@ export interface FileRoutesByTo {
   '/academics/subjects': typeof AcademicsSubjectsRoute
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/permissions': typeof AccountsPermissionsRoute
+  '/accounts/profile': typeof AccountsProfileRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
   '/attendance/mark': typeof AttendanceMarkRoute
@@ -252,6 +268,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/me': typeof MeRoute
   '/reports': typeof ReportsRoute
   '/academics/academic-years': typeof AcademicsAcademicYearsRoute
   '/academics/classes': typeof AcademicsClassesRoute
@@ -260,6 +277,7 @@ export interface FileRoutesById {
   '/academics/subjects': typeof AcademicsSubjectsRoute
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/permissions': typeof AccountsPermissionsRoute
+  '/accounts/profile': typeof AccountsProfileRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
   '/attendance/mark': typeof AttendanceMarkRoute
@@ -285,6 +303,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/me'
     | '/reports'
     | '/academics/academic-years'
     | '/academics/classes'
@@ -293,6 +312,7 @@ export interface FileRouteTypes {
     | '/academics/subjects'
     | '/academics/terms'
     | '/accounts/permissions'
+    | '/accounts/profile'
     | '/accounts/roles'
     | '/accounts/users'
     | '/attendance/mark'
@@ -316,6 +336,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/me'
     | '/reports'
     | '/academics/academic-years'
     | '/academics/classes'
@@ -324,6 +345,7 @@ export interface FileRouteTypes {
     | '/academics/subjects'
     | '/academics/terms'
     | '/accounts/permissions'
+    | '/accounts/profile'
     | '/accounts/roles'
     | '/accounts/users'
     | '/attendance/mark'
@@ -347,6 +369,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/me'
     | '/reports'
     | '/academics/academic-years'
     | '/academics/classes'
@@ -355,6 +378,7 @@ export interface FileRouteTypes {
     | '/academics/subjects'
     | '/academics/terms'
     | '/accounts/permissions'
+    | '/accounts/profile'
     | '/accounts/roles'
     | '/accounts/users'
     | '/attendance/mark'
@@ -379,6 +403,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  MeRoute: typeof MeRoute
   ReportsRoute: typeof ReportsRoute
   AcademicsAcademicYearsRoute: typeof AcademicsAcademicYearsRoute
   AcademicsClassesRoute: typeof AcademicsClassesRoute
@@ -387,6 +412,7 @@ export interface RootRouteChildren {
   AcademicsSubjectsRoute: typeof AcademicsSubjectsRoute
   AcademicsTermsRoute: typeof AcademicsTermsRoute
   AccountsPermissionsRoute: typeof AccountsPermissionsRoute
+  AccountsProfileRoute: typeof AccountsProfileRoute
   AccountsRolesRoute: typeof AccountsRolesRoute
   AccountsUsersRoute: typeof AccountsUsersRoute
   AttendanceMarkRoute: typeof AttendanceMarkRoute
@@ -422,6 +448,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me': {
+      id: '/me'
+      path: '/me'
+      fullPath: '/me'
+      preLoaderRoute: typeof MeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -478,6 +511,13 @@ declare module '@tanstack/react-router' {
       path: '/accounts/permissions'
       fullPath: '/accounts/permissions'
       preLoaderRoute: typeof AccountsPermissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/profile': {
+      id: '/accounts/profile'
+      path: '/accounts/profile'
+      fullPath: '/accounts/profile'
+      preLoaderRoute: typeof AccountsProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accounts/roles': {
@@ -619,6 +659,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  MeRoute: MeRoute,
   ReportsRoute: ReportsRoute,
   AcademicsAcademicYearsRoute: AcademicsAcademicYearsRoute,
   AcademicsClassesRoute: AcademicsClassesRoute,
@@ -627,6 +668,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicsSubjectsRoute: AcademicsSubjectsRoute,
   AcademicsTermsRoute: AcademicsTermsRoute,
   AccountsPermissionsRoute: AccountsPermissionsRoute,
+  AccountsProfileRoute: AccountsProfileRoute,
   AccountsRolesRoute: AccountsRolesRoute,
   AccountsUsersRoute: AccountsUsersRoute,
   AttendanceMarkRoute: AttendanceMarkRoute,
