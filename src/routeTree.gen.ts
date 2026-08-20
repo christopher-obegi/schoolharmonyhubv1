@@ -19,6 +19,7 @@ import { Route as AcademicsSubjectAssignmentsRouteImport } from './routes/academ
 import { Route as AcademicsSubjectsRouteImport } from './routes/academics.subjects'
 import { Route as AcademicsTermsRouteImport } from './routes/academics.terms'
 import { Route as AccountsPermissionsRouteImport } from './routes/accounts.permissions'
+import { Route as AccountsProfileRouteImport } from './routes/accounts.profile'
 import { Route as AccountsRolesRouteImport } from './routes/accounts.roles'
 import { Route as AccountsUsersRouteImport } from './routes/accounts.users'
 import { Route as AttendanceMarkRouteImport } from './routes/attendance.mark'
@@ -88,6 +89,11 @@ const AcademicsTermsRoute = AcademicsTermsRouteImport.update({
 const AccountsPermissionsRoute = AccountsPermissionsRouteImport.update({
   id: '/accounts/permissions',
   path: '/accounts/permissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsProfileRoute = AccountsProfileRouteImport.update({
+  id: '/accounts/profile',
+  path: '/accounts/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountsRolesRoute = AccountsRolesRouteImport.update({
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/academics/subjects': typeof AcademicsSubjectsRoute
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/permissions': typeof AccountsPermissionsRoute
+  '/accounts/profile': typeof AccountsProfileRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
   '/attendance/mark': typeof AttendanceMarkRoute
@@ -228,6 +235,7 @@ export interface FileRoutesByTo {
   '/academics/subjects': typeof AcademicsSubjectsRoute
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/permissions': typeof AccountsPermissionsRoute
+  '/accounts/profile': typeof AccountsProfileRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
   '/attendance/mark': typeof AttendanceMarkRoute
@@ -260,6 +268,7 @@ export interface FileRoutesById {
   '/academics/subjects': typeof AcademicsSubjectsRoute
   '/academics/terms': typeof AcademicsTermsRoute
   '/accounts/permissions': typeof AccountsPermissionsRoute
+  '/accounts/profile': typeof AccountsProfileRoute
   '/accounts/roles': typeof AccountsRolesRoute
   '/accounts/users': typeof AccountsUsersRoute
   '/attendance/mark': typeof AttendanceMarkRoute
@@ -293,6 +302,7 @@ export interface FileRouteTypes {
     | '/academics/subjects'
     | '/academics/terms'
     | '/accounts/permissions'
+    | '/accounts/profile'
     | '/accounts/roles'
     | '/accounts/users'
     | '/attendance/mark'
@@ -324,6 +334,7 @@ export interface FileRouteTypes {
     | '/academics/subjects'
     | '/academics/terms'
     | '/accounts/permissions'
+    | '/accounts/profile'
     | '/accounts/roles'
     | '/accounts/users'
     | '/attendance/mark'
@@ -355,6 +366,7 @@ export interface FileRouteTypes {
     | '/academics/subjects'
     | '/academics/terms'
     | '/accounts/permissions'
+    | '/accounts/profile'
     | '/accounts/roles'
     | '/accounts/users'
     | '/attendance/mark'
@@ -387,6 +399,7 @@ export interface RootRouteChildren {
   AcademicsSubjectsRoute: typeof AcademicsSubjectsRoute
   AcademicsTermsRoute: typeof AcademicsTermsRoute
   AccountsPermissionsRoute: typeof AccountsPermissionsRoute
+  AccountsProfileRoute: typeof AccountsProfileRoute
   AccountsRolesRoute: typeof AccountsRolesRoute
   AccountsUsersRoute: typeof AccountsUsersRoute
   AttendanceMarkRoute: typeof AttendanceMarkRoute
@@ -478,6 +491,13 @@ declare module '@tanstack/react-router' {
       path: '/accounts/permissions'
       fullPath: '/accounts/permissions'
       preLoaderRoute: typeof AccountsPermissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/profile': {
+      id: '/accounts/profile'
+      path: '/accounts/profile'
+      fullPath: '/accounts/profile'
+      preLoaderRoute: typeof AccountsProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accounts/roles': {
@@ -627,6 +647,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicsSubjectsRoute: AcademicsSubjectsRoute,
   AcademicsTermsRoute: AcademicsTermsRoute,
   AccountsPermissionsRoute: AccountsPermissionsRoute,
+  AccountsProfileRoute: AccountsProfileRoute,
   AccountsRolesRoute: AccountsRolesRoute,
   AccountsUsersRoute: AccountsUsersRoute,
   AttendanceMarkRoute: AttendanceMarkRoute,
