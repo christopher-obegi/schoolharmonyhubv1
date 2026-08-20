@@ -78,8 +78,8 @@ function Page() {
               data={[...collectionsByClass]}
               xKey="name"
               bars={[
-                { key: "collected", color: "var(--color-teal)" },
-                { key: "due", color: "var(--color-gold)" },
+                { key: "collected", color: "var(--color-chart-1)" },
+                { key: "due", color: "var(--color-chart-3)" },
               ]}
             />
           </div>
