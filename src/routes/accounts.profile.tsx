@@ -50,7 +50,7 @@ function Page() {
               <Mail className="size-4" /> {me.email}
             </p>
             <p className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="size-4" /> {me.phone}
+              <Phone className="size-4" /> Last login: {me.lastLogin}
             </p>
             <p className="flex items-center gap-2 text-muted-foreground">
               <Shield className="size-4" /> Active session role: {role}
