@@ -32,18 +32,34 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+export type Option = string | { value: string; label: string };
+
 export type Field = {
   name: string;
   label: string;
-  type?: "text" | "email" | "number" | "date" | "select" | "textarea";
-  options?: string[];
-  placeholder?: string;
-  required?: boolean;
-  hint?: string;
-  half?: boolean;
+  /** "checkboxes": several options; the value is the chosen option values joined by commas. */
+  type?: "text" | "email" | "password" | "number" | "date" | "select" | "textarea" | "file" | "checkboxes";
+  options?: Option[] | undefined;
+  placeholder?: string | undefined;
+  required?: boolean | undefined;
+  hint?: string | undefined;
+  half?: boolean | undefined;
+  defaultValue?: string | undefined;
 };
 
-/** Reusable create/edit dialog with inline field validation and polished states. */
+const optionValue = (option: Option) => (typeof option === "string" ? option : option.value);
+const optionLabel = (option: Option) => (typeof option === "string" ? option : option.label);
+
+const initialValues = (fields: Field[]) =>
+  Object.fromEntries(
+    fields.flatMap((f) => (f.defaultValue === undefined ? [] : [[f.name, f.defaultValue]])),
+  );
+
+/**
+ * Reusable create/edit dialog with inline field validation and polished states.
+ * `onSubmit` may be async; if it throws, the dialog stays open and any `fieldErrors`
+ * on the error (e.g. DRF validation errors) are shown under the matching fields.
+ */
 export function RecordDialog({
   trigger,
   title,
@@ -57,10 +73,23 @@ export function RecordDialog({
   description?: string | undefined;
   fields: Field[];
   submitLabel?: string | undefined;
-  onSubmit?: (values: Record<string, string>) => void;
+  /** `files` holds the File chosen for each "file" field. */
+  onSubmit?: (values: Record<string, string>, files: Record<string, File>) => void | Promise<void>;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
+  const [files, setFiles] = useState<Record<string, File>>({});
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const setOpen = (next: boolean) => {
+    if (next) {
+      setValues(initialValues(fields));
+      setFiles({});
+      setErrors({});
+      setFormError(null);
+    }
+    setOpenState(next);
+  };
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
 
@@ -72,7 +101,7 @@ export function RecordDialog({
   const validate = () => {
     const next: Record<string, string> = {};
     for (const field of fields) {
-      const raw = (values[field.name] ?? "").trim();
+      const raw = field.type === "file" ? (files[field.name]?.name ?? "") : (values[field.name] ?? "").trim();
       if (field.required && !raw) {
         next[field.name] = `${field.label} is required`;
         continue;
@@ -95,12 +124,26 @@ export function RecordDialog({
       return;
     }
     setSaving(true);
-    await new Promise((r) => setTimeout(r, 550));
-    setSaving(false);
-    setOpen(false);
-    setValues({});
-    onSubmit?.(values);
-    toast.success(`${title} saved`, { description: "Changes recorded in the demo dataset." });
+    setFormError(null);
+    try {
+      await onSubmit?.(values, files);
+      setOpen(false);
+      toast.success(`${title}: saved`);
+    } catch (err) {
+      const fieldErrors =
+        err && typeof err === "object" && "fieldErrors" in err
+          ? (err.fieldErrors as Record<string, string>)
+          : {};
+      const known = Object.fromEntries(
+        Object.entries(fieldErrors).filter(([key]) => fields.some((f) => f.name === key)),
+      );
+      setErrors(known);
+      const unmatched = Object.keys(fieldErrors).length > Object.keys(known).length;
+      const message = err instanceof Error ? err.message : "Could not save";
+      setFormError(Object.keys(known).length && !unmatched ? "Please fix the highlighted fields." : message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -133,12 +176,51 @@ export function RecordDialog({
                   </SelectTrigger>
                   <SelectContent>
                     {(field.options ?? []).map((option) => (
-                      <SelectItem key={option} value={option}>
-                        {option}
+                      <SelectItem key={optionValue(option)} value={optionValue(option)}>
+                        {optionLabel(option)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+              ) : field.type === "checkboxes" ? (
+                <div id={field.name} className="grid gap-2 rounded-md border border-input p-3 sm:grid-cols-2">
+                  {(field.options ?? []).map((option) => {
+                    const value = optionValue(option);
+                    const chosen = (values[field.name] ?? "").split(",").filter(Boolean);
+                    return (
+                      <label key={value} className="flex items-center gap-2 text-sm">
+                        <input
+                          type="checkbox"
+                          className="size-4 accent-primary"
+                          checked={chosen.includes(value)}
+                          onChange={(e) =>
+                            set(
+                              field.name,
+                              (e.target.checked ? [...chosen, value] : chosen.filter((v) => v !== value)).join(","),
+                            )
+                          }
+                        />
+                        {optionLabel(option)}
+                      </label>
+                    );
+                  })}
+                </div>
+              ) : field.type === "file" ? (
+                <Input
+                  id={field.name}
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    setFiles((f) => {
+                      const next = { ...f };
+                      if (file) next[field.name] = file;
+                      else delete next[field.name];
+                      return next;
+                    });
+                    setErrors((errs) => ({ ...errs, [field.name]: "" }));
+                  }}
+                  aria-invalid={Boolean(errors[field.name])}
+                />
               ) : field.type === "textarea" ? (
                 <Textarea
                   id={field.name}
@@ -166,6 +248,12 @@ export function RecordDialog({
           ))}
         </div>
 
+        {formError ? (
+          <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
+            {formError}
+          </p>
+        ) : null}
+
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)} disabled={saving}>
             Cancel
@@ -192,7 +280,7 @@ export function ConfirmDialog({
   description: string;
   confirmLabel?: string;
   destructive?: boolean;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
 }) {
   return (
     <AlertDialog>
@@ -207,8 +295,8 @@ export function ConfirmDialog({
           <AlertDialogAction
             className={destructive ? "bg-destructive text-destructive-foreground" : undefined}
             onClick={() => {
-              onConfirm?.();
-              toast.success(`${confirmLabel} completed`);
+              // The caller reports success or failure (onConfirm may be async).
+              void onConfirm?.();
             }}
           >
             {confirmLabel}

@@ -1,49 +1,93 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
-import { StatusBadge } from "@/components/erp/status-badge";
-import { guardians } from "@/lib/erp-data";
+import {
+  choices,
+  endpointLabel,
+  humanize,
+  pageHead,
+  payload,
+  useCreate,
+  useList,
+  useSchoolField,
+} from "@/lib/resources";
+
+const DESCRIPTION = "Guardian contacts and relationships.";
 
 export const Route = createFileRoute("/students/parents")({
-  head: () => ({
-    meta: [
-      { title: "Parents & guardians — Scholaris ERP" },
-      { name: "description", content: "Guardian contacts, linked students and portal access." },
-      { property: "og:title", content: "Parents & guardians — Scholaris ERP" },
-      { property: "og:description", content: "Guardian contacts, linked students and portal access." },
-    ],
-  }),
+  head: pageHead("Parents & guardians", DESCRIPTION),
   component: Page,
 });
 
-type Row = (typeof guardians)[number];
+type Row = {
+  id: number;
+  name: string;
+  relation: string;
+  phone: string;
+  email: string;
+  occupation: string;
+};
 
 const columns: Column<Row>[] = [
-    { key: "name", header: "Guardian", sortable: true },
-    { key: "relation", header: "Relation" },
-    { key: "phone", header: "Phone", render: (row) => <span className="font-mono text-xs">{String(row.phone)}</span> },
-    { key: "email", header: "Email" },
-    { key: "students", header: "Students", align: "right" },
-    { key: "portal", header: "Portal", render: (row) => <StatusBadge status={String(row.portal)} /> },
+  { key: "name", header: "Guardian", sortable: true },
+  { key: "relation", header: "Relation" },
+  { key: "phone", header: "Phone", render: (row) => <span className="font-mono text-xs">{row.phone}</span> },
+  { key: "email", header: "Email" },
+  { key: "occupation", header: "Occupation" },
 ];
 
 function Page() {
+  const { data, isLoading, error } = useList("guardians");
+  const create = useCreate("guardians");
+  const schoolField = useSchoolField();
+
+  const rows = useMemo<Row[]>(
+    () =>
+      (data ?? []).map((g) => ({
+        id: g.id,
+        name: `${g.first_name} ${g.last_name}`,
+        relation: humanize(g.relationship),
+        phone: String(g.phone_number || "—"),
+        email: String(g.email || "—"),
+        occupation: String(g.occupation || "—"),
+      })),
+    [data],
+  );
+
   return (
-    <ModulePage
+    <ModulePage<Row>
       title="Parents & guardians"
-      description="Guardian contacts, linked students and portal access."
-      endpoint="GET /api/v1/guardians"
+      description={DESCRIPTION}
+      resource="guardians"
       columns={columns}
-      rows={guardians}
+      rows={rows}
+      loading={isLoading}
+      error={error}
       searchKeys={["name", "phone", "email"]}
       searchPlaceholder="Search parents & guardians…"
       filterKey="relation"
       createLabel="Add guardian"
+      onCreate={async (values) => {
+        await create(payload(values));
+      }}
       createFields={[
-      {"name": "name", "label": "Full name", "type": "text", "required": true, "half": false},
-      {"name": "relation", "label": "Relation", "type": "select", "required": true, "half": true, "options": ["Father", "Mother", "Guardian"]},
-      {"name": "phone", "label": "Phone", "type": "text", "required": true, "half": true},
-      {"name": "email", "label": "Email", "type": "email", "required": true, "half": true},
+        schoolField,
+        { name: "first_name", label: "First name", required: true, half: true },
+        { name: "last_name", label: "Last name", required: true, half: true },
+        {
+          name: "relationship",
+          label: "Relation",
+          type: "select",
+          required: true,
+          half: true,
+          options: choices("MOTHER", "FATHER", "GUARDIAN", "SPONSOR", "OTHER"),
+          defaultValue: "GUARDIAN",
+        },
+        { name: "phone_number", label: "Phone", half: true, placeholder: "+254712345678" },
+        { name: "email", label: "Email", type: "email", half: true },
+        { name: "occupation", label: "Occupation", half: true },
+        { name: "address", label: "Address", type: "textarea" },
       ]}
     />
   );

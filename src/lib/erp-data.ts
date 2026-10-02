@@ -8,51 +8,6 @@ export type Role =
   | "Exam Admin"
   | "Finance Officer";
 
-export const ROLES: Role[] = [
-  "Super Admin",
-  "School Admin",
-  "Teacher",
-  "Student",
-  "Parent",
-  "Admissions Officer",
-  "Exam Admin",
-  "Finance Officer",
-];
-
-/** Which sidebar sections each role can reach. */
-export const ROLE_SECTIONS: Record<Role, string[]> = {
-  "Super Admin": [
-    "Core",
-    "Accounts & Roles",
-    "Academics",
-    "Students",
-    "Attendance",
-    "Examinations",
-    "Finance",
-    "Reports",
-  ],
-  "School Admin": [
-    "Core",
-    "Accounts & Roles",
-    "Academics",
-    "Students",
-    "Attendance",
-    "Examinations",
-    "Finance",
-    "Reports",
-  ],
-  Teacher: ["Academics", "Students", "Attendance", "Examinations"],
-  Student: ["Me"],
-  Parent: ["Me"],
-  "Admissions Officer": ["Students", "Academics", "Reports"],
-  "Exam Admin": ["Examinations", "Academics", "Reports"],
-  "Finance Officer": ["Finance", "Students", "Reports"],
-};
-
-export const canWrite = (role: Role) =>
-  ["Super Admin", "School Admin", "Admissions Officer", "Exam Admin", "Finance Officer"].includes(
-    role,
-  );
 
 /* ------------------------------- KPIs -------------------------------- */
 

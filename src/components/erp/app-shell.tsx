@@ -13,16 +13,9 @@ import {
 } from "lucide-react";
 import { NAV } from "./nav-config";
 import { useRole } from "./role-context";
-import { ROLES, type Role } from "@/lib/erp-data";
+import { displayName, useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,11 +38,19 @@ function useDarkMode() {
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { pathname } = useRouterState({ select: (s) => s.location });
-  const { sections } = useRole();
+  const { can, portalOnly, hasPortal } = useRole();
 
   const visible = useMemo(
-    () => NAV.filter((group) => group.section === "Overview" || sections.includes(group.section)),
-    [sections],
+    () =>
+      NAV.map((group) => ({
+        ...group,
+        items: group.items.filter((item) => {
+          if (item.audience === "everyone") return true;
+          if (item.audience === "portal") return hasPortal;
+          return !portalOnly && (!item.area || can(item.area));
+        }),
+      })).filter((group) => group.items.length > 0),
+    [can, portalOnly, hasPortal],
   );
 
   return (
@@ -110,8 +111,17 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useRouterState({ select: (s) => s.location });
-  const { role, setRole } = useRole();
+  const { role, roles } = useRole();
+  const { user, logout } = useAuth();
   const { dark, toggle } = useDarkMode();
+  const name = user ? displayName(user) : "";
+  const initials =
+    name
+      .split(/[\s@.]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "?";
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const crumbs = pathname.split("/").filter(Boolean);
@@ -152,18 +162,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
 
             <div className="ml-auto flex items-center gap-2">
-              <Select value={role} onValueChange={(v) => setRole(v as Role)}>
-                <SelectTrigger className="h-9 w-[9.5rem] bg-background text-xs">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {ROLES.map((r) => (
-                    <SelectItem key={r} value={r} className="text-xs">
-                      {r}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <span
+                className="hidden rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-muted-foreground sm:inline"
+                title={roles.join(", ")}
+              >
+                {role}
+                {roles.length > 1 ? ` +${roles.length - 1}` : ""}
+              </span>
 
               <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
                 {dark ? <Sun className="size-4.5" /> : <Moon className="size-4.5" />}
@@ -179,15 +184,15 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <button className="flex items-center gap-2 rounded-full border border-border p-0.5 pr-2.5 transition-colors hover:bg-accent/40">
                     <Avatar className="size-7">
                       <AvatarFallback className="bg-primary text-[11px] text-primary-foreground">
-                        AH
+                        {initials}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="hidden text-xs font-medium sm:inline">Amina H.</span>
+                    <span className="hidden text-xs font-medium sm:inline">{name}</span>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
-                    amina.hassan@scholaris.io
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel className="truncate text-xs font-normal text-muted-foreground">
+                    {user?.email}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
@@ -197,10 +202,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                     <Link to={"/me" as "/"}>My portal</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link to={"/auth/login" as "/"} className="text-destructive">
-                      <LogOut className="mr-2 size-4" /> Sign out
-                    </Link>
+                  <DropdownMenuItem className="text-destructive" onSelect={() => void logout()}>
+                    <LogOut className="mr-2 size-4" /> Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -225,7 +228,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <main className="min-w-0 flex-1 space-y-6 px-4 py-6 lg:px-6 lg:py-8">{children}</main>
 
         <footer className="border-t border-border px-4 py-4 text-xs text-muted-foreground lg:px-6">
-          © 2026 Scholaris ERP · Demo data only
+          © 2026 Scholaris ERP
         </footer>
       </div>
     </div>

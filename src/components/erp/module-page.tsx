@@ -1,20 +1,19 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { Plus } from "lucide-react";
-import { toast } from "sonner";
+import { AlertTriangle, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeader, SectionCard } from "./page-header";
 import { DataTable, FilterChips, type Column } from "./data-table";
 import { RecordDialog, type Field } from "./forms";
-import { useRole } from "./role-context";
+import { endpointLabel, useCan, type Resource } from "@/lib/resources";
 
 /**
  * Standard module screen: header + optional aside content + filterable data table
- * with a role-aware create action.
+ * with a create action shown only to roles that may write this resource.
  */
 export function ModulePage<T extends Record<string, unknown>>({
   title,
   description,
-  endpoint,
+  resource,
   columns,
   rows,
   searchKeys,
@@ -30,10 +29,15 @@ export function ModulePage<T extends Record<string, unknown>>({
   emptyTitle,
   emptyDescription,
   pageSize,
+  loading,
+  error,
+  onCreate,
+  rowActions,
 }: {
   title: string;
   description?: string | undefined;
-  endpoint?: string | undefined;
+  /** The API resource listed here: sets the endpoint label and who may create. */
+  resource: Resource;
   columns: Column<T>[];
   rows: T[];
   searchKeys?: string[] | undefined;
@@ -49,8 +53,16 @@ export function ModulePage<T extends Record<string, unknown>>({
   emptyTitle?: string | undefined;
   emptyDescription?: string | undefined;
   pageSize?: number | undefined;
+  /** True while the rows are being fetched from the API. */
+  loading?: boolean | undefined;
+  /** A fetch error to show in place of the table. */
+  error?: unknown;
+  /** Persists a new record; throw to keep the dialog open and show the error. */
+  onCreate?: ((values: Record<string, string>, files: Record<string, File>) => Promise<void>) | undefined;
+  /** Per-row actions (buttons) shown at the end of each row. */
+  rowActions?: ((row: T) => ReactNode) | undefined;
 }) {
-  const { writable } = useRole();
+  const writable = useCan()(resource, true);
   const [filter, setFilter] = useState("all");
 
   const filterOptions = useMemo(() => {
@@ -64,7 +76,7 @@ export function ModulePage<T extends Record<string, unknown>>({
   }, [rows, filter, filterKey]);
 
   const createAction =
-    writable && createFields && createLabel ? (
+    writable && createFields && createLabel && onCreate ? (
       <RecordDialog
         trigger={
           <Button>
@@ -72,9 +84,9 @@ export function ModulePage<T extends Record<string, unknown>>({
           </Button>
         }
         title={createLabel}
-        description="Changes are validated before they are submitted to the API."
+        description="Changes are validated by the server before they are saved."
         fields={createFields}
-        onSubmit={() => toast.success(`${createLabel} submitted`)}
+        onSubmit={onCreate}
       />
     ) : null;
 
@@ -83,7 +95,7 @@ export function ModulePage<T extends Record<string, unknown>>({
       <PageHeader
         title={title}
         description={description}
-        endpoint={endpoint}
+        endpoint={endpointLabel(resource)}
         actions={
           <>
             {extraActions}
@@ -93,7 +105,20 @@ export function ModulePage<T extends Record<string, unknown>>({
       />
       {above}
       <SectionCard title={tableTitle ?? title} description={tableDescription}>
+        {error ? (
+          <div role="alert" className="flex items-start gap-3 p-6 text-sm">
+            <AlertTriangle className="mt-0.5 size-4 shrink-0 text-destructive" />
+            <div>
+              <p className="font-medium text-foreground">Could not load {title.toLowerCase()}</p>
+              <p className="mt-1 text-muted-foreground">
+                {error instanceof Error ? error.message : String(error)}
+              </p>
+            </div>
+          </div>
+        ) : (
         <DataTable<T>
+          loading={loading}
+          rowActions={rowActions}
           columns={columns}
           rows={visible}
           searchKeys={searchKeys}
@@ -112,6 +137,7 @@ export function ModulePage<T extends Record<string, unknown>>({
             ) : null
           }
         />
+        )}
       </SectionCard>
       {below}
     </>

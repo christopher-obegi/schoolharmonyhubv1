@@ -35,6 +35,19 @@ const TONES: Record<string, Tone> = {
   critical: "danger",
   info: "info",
   warning: "warning",
+  // Backend status values (humanized).
+  inactive: "neutral",
+  current: "success",
+  issued: "info",
+  "partially paid": "warning",
+  successful: "success",
+  reversed: "danger",
+  cancelled: "neutral",
+  completed: "success",
+  promoted: "gold",
+  archived: "neutral",
+  alumni: "gold",
+  custom: "info",
 };
 
 const toneClass: Record<Tone, string> = {
@@ -46,7 +59,16 @@ const toneClass: Record<Tone, string> = {
   gold: "bg-gold/18 text-gold-foreground border-gold/40",
 };
 
-export function StatusBadge({ status, className }: { status: string; className?: string }) {
+/** `status` picks the colour; `label` (optional) overrides the text shown. */
+export function StatusBadge({
+  status,
+  label,
+  className,
+}: {
+  status: string;
+  label?: string;
+  className?: string;
+}) {
   const tone = TONES[status.toLowerCase()] ?? "neutral";
   return (
     <span
@@ -57,7 +79,7 @@ export function StatusBadge({ status, className }: { status: string; className?:
       )}
     >
       <span className="size-1.5 rounded-full bg-current opacity-70" />
-      {status}
+      {label ?? status}
     </span>
   );
 }

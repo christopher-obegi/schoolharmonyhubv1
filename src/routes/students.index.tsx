@@ -1,63 +1,112 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
-import { students, type StudentRow } from "@/lib/erp-data";
+import {
+  choices,
+  endpointLabel,
+  humanize,
+  pageHead,
+  payload,
+  shortDate,
+  useCreate,
+  useList,
+  useLookup,
+  useSchoolField,
+} from "@/lib/resources";
+
+const DESCRIPTION = "Admissions, learner profiles and class placement records.";
 
 export const Route = createFileRoute("/students/")({
-  head: () => ({
-    meta: [
-      { title: "Student directory — Scholaris ERP" },
-      { name: "description", content: "Admissions, learner profiles and class placement records." },
-      { property: "og:title", content: "Student directory — Scholaris ERP" },
-      {
-        property: "og:description",
-        content: "Admissions, learner profiles and class placement records.",
-      },
-    ],
-  }),
+  head: pageHead("Student directory", DESCRIPTION),
   component: Page,
 });
 
-const columns: Column<StudentRow>[] = [
+type Row = {
+  id: number;
+  adm: string;
+  name: string;
+  gender: string;
+  class: string;
+  stream: string;
+  admitted: string;
+  admittedRaw: string;
+  status: string;
+};
+
+const columns: Column<Row>[] = [
   { key: "adm", header: "Admission no.", sortable: true },
   { key: "name", header: "Student", sortable: true },
+  { key: "gender", header: "Gender" },
   { key: "class", header: "Class" },
   { key: "stream", header: "Stream" },
-  { key: "guardian", header: "Guardian" },
-  { key: "balance", header: "Balance", align: "right" },
-  { key: "status", header: "Status", render: (row) => <StatusBadge status={String(row.status)} /> },
+  { key: "admitted", header: "Admitted", sortable: true, value: (row) => row.admittedRaw },
+  { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
 ];
 
 function Page() {
+  const { data, isLoading, error } = useList("students");
+  const create = useCreate("students");
+  const classes = useLookup("classes");
+  const streams = useLookup("streams");
+  const schoolField = useSchoolField();
+
+  const rows = useMemo<Row[]>(
+    () =>
+      (data ?? []).map((s) => ({
+        id: s.id,
+        adm: String(s.admission_number),
+        name: String(s.full_name ?? `${s.first_name} ${s.last_name}`),
+        gender: humanize(s.gender),
+        class: s.current_class ? classes.name(s.current_class) : "Unplaced",
+        stream: s.current_stream ? streams.name(s.current_stream) : "—",
+        admitted: shortDate(s.admission_date),
+        admittedRaw: String(s.admission_date ?? ""),
+        status: humanize(s.status),
+      })),
+    [data, classes, streams],
+  );
+
   return (
-    <ModulePage<StudentRow>
+    <ModulePage<Row>
       title="Student directory"
-      description="Admissions, learner profiles and class placement records."
-      endpoint="GET /api/v1/students"
+      description={DESCRIPTION}
+      resource="students"
       columns={columns}
-      rows={students}
-      searchKeys={["name", "adm", "guardian"]}
+      rows={rows}
+      loading={isLoading}
+      error={error}
+      searchKeys={["name", "adm", "class"]}
       searchPlaceholder="Search students…"
       filterKey="status"
+      pageSize={10}
+      emptyTitle="No students yet"
+      emptyDescription="Admit a student to create their record. Admission numbers are generated automatically."
       createLabel="Admit student"
+      onCreate={async (values) => {
+        await create(payload(values));
+      }}
       createFields={[
-        { name: "name", label: "Full name", type: "text", required: true, half: true },
-        { name: "adm", label: "Admission no.", type: "text", required: true, half: true },
+        schoolField,
+        { name: "first_name", label: "First name", required: true, half: true },
+        { name: "middle_name", label: "Middle name", half: true },
+        { name: "last_name", label: "Last name", required: true, half: true },
         {
-          name: "class",
-          label: "Class",
+          name: "gender",
+          label: "Gender",
           type: "select",
-          required: true,
           half: true,
-          options: ["Form 1", "Form 2", "Form 3", "Form 4"],
+          options: choices("MALE", "FEMALE", "OTHER", "NOT_SPECIFIED"),
+          defaultValue: "NOT_SPECIFIED",
         },
-        { name: "stream", label: "Stream", type: "text", half: true },
-        { name: "guardian", label: "Primary guardian", type: "text", required: true, half: true },
-        { name: "dob", label: "Date of birth", type: "date", half: true },
-        { name: "notes", label: "Notes", type: "textarea" },
+        { name: "date_of_birth", label: "Date of birth", type: "date", half: true },
+        { name: "current_class", label: "Class", type: "select", half: true, options: classes.options },
+        { name: "current_stream", label: "Stream", type: "select", half: true, options: streams.options },
+        { name: "phone_number", label: "Phone", half: true },
+        { name: "email", label: "Email", type: "email", half: true },
+        { name: "medical_conditions", label: "Medical notes", type: "textarea" },
       ]}
-      pageSize={8}
     />
   );
 }

@@ -82,7 +82,7 @@ export function DataTable<T extends Record<string, unknown>>({
   emptyTitle?: string | undefined;
   emptyDescription?: string | undefined;
   emptyAction?: ReactNode;
-  rowActions?: (row: T) => ReactNode;
+  rowActions?: ((row: T) => ReactNode) | undefined;
 }) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" } | null>(null);

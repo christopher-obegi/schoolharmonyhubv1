@@ -1,47 +1,80 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
-import { roleRows } from "@/lib/erp-data";
+import { endpointLabel, pageHead, payload, useCreate, useList } from "@/lib/resources";
+
+const DESCRIPTION = "Role definitions, codes and permission counts.";
 
 export const Route = createFileRoute("/accounts/roles")({
-  head: () => ({
-    meta: [
-      { title: "Roles — Scholaris ERP" },
-      { name: "description", content: "Role definitions, scope and permission counts." },
-      { property: "og:title", content: "Roles — Scholaris ERP" },
-      { property: "og:description", content: "Role definitions, scope and permission counts." },
-    ],
-  }),
+  head: pageHead("Roles", DESCRIPTION),
   component: Page,
 });
 
-type Row = (typeof roleRows)[number];
+type Row = {
+  id: number;
+  name: string;
+  code: string;
+  description: string;
+  permissions: number;
+  type: string;
+};
 
 const columns: Column<Row>[] = [
-    { key: "name", header: "Role", sortable: true },
-    { key: "scope", header: "Scope" },
-    { key: "members", header: "Members", sortable: true, align: "right" },
-    { key: "permissions", header: "Permissions", align: "right" },
-    { key: "status", header: "Status", render: (row) => <StatusBadge status={String(row.status)} /> },
+  { key: "name", header: "Role", sortable: true },
+  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  { key: "description", header: "Description" },
+  { key: "permissions", header: "Permissions", sortable: true, align: "right" },
+  { key: "type", header: "Type", render: (row) => <StatusBadge status={row.type} /> },
 ];
 
 function Page() {
+  const { data, isLoading, error } = useList("roles");
+  const create = useCreate("roles");
+
+  const rows = useMemo<Row[]>(
+    () =>
+      (data ?? []).map((r) => ({
+        id: r.id,
+        name: String(r.name),
+        code: String(r.code),
+        description: String(r.description || "—"),
+        permissions: Array.isArray(r.permissions) ? r.permissions.length : 0,
+        type: r.is_system_role ? "System" : "Custom",
+      })),
+    [data],
+  );
+
   return (
-    <ModulePage
+    <ModulePage<Row>
       title="Roles"
-      description="Role definitions, scope and permission counts."
-      endpoint="GET /api/v1/roles"
+      description={DESCRIPTION}
+      resource="roles"
       columns={columns}
-      rows={roleRows}
-      searchKeys={["name", "scope"]}
+      rows={rows}
+      loading={isLoading}
+      error={error}
+      searchKeys={["name", "code", "description"]}
       searchPlaceholder="Search roles…"
-      filterKey="scope"
+      filterKey="type"
+      emptyTitle="No roles yet"
+      emptyDescription="Role codes the backend checks: SCHOOL_ADMIN, TEACHER, ADMISSIONS_OFFICER, FINANCE_OFFICER, PARENT, STUDENT."
       createLabel="Create role"
+      onCreate={async (values) => {
+        await create(payload(values));
+      }}
       createFields={[
-      {"name": "name", "label": "Role name", "type": "text", "required": true, "half": false},
-      {"name": "scope", "label": "Scope", "type": "select", "required": true, "half": true, "options": ["Platform", "School", "Portal"]},
-      {"name": "description", "label": "Description", "type": "textarea", "required": false, "half": false},
+        { name: "name", label: "Role name", required: true, half: true },
+        {
+          name: "code",
+          label: "Code",
+          required: true,
+          half: true,
+          placeholder: "SCHOOL_ADMIN",
+          hint: "Permissions are checked against this code.",
+        },
+        { name: "description", label: "Description", type: "textarea" },
       ]}
     />
   );

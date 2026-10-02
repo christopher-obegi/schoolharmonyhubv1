@@ -3,6 +3,7 @@ import {
   Outlet,
   Link,
   createRootRouteWithContext,
+  useNavigate,
   useRouter,
   useRouterState,
   HeadContent,
@@ -14,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/erp/app-shell";
 import { RoleProvider } from "../components/erp/role-context";
+import { AuthProvider, useAuth } from "../lib/auth";
 import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
@@ -128,23 +130,54 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const { pathname } = useRouterState({ select: (s) => s.location });
-  const bare = pathname.startsWith("/auth");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RoleProvider>
-        {bare ? (
-          /* Required: nested routes render here. */
-          <Outlet />
-        ) : (
-          <AppShell>
-            <Outlet />
-          </AppShell>
-        )}
-        <Toaster position="top-right" richColors />
-      </RoleProvider>
+      <AuthProvider>
+        <RoleProvider>
+          <AuthGate />
+          <Toaster position="top-right" richColors />
+        </RoleProvider>
+      </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+/** Sends signed-out visitors to /auth and signed-in users away from it. */
+function AuthGate() {
+  const { status } = useAuth();
+  const navigate = useNavigate();
+  // Gate on the *resolved* location: while a navigation is pending, `location` already
+  // points at the new route but <Outlet/> still renders the previous match.
+  const pathname = useRouterState({
+    select: (s) => (s.resolvedLocation ?? s.location).pathname,
+  });
+  const onAuthPage = pathname.startsWith("/auth");
+
+  useEffect(() => {
+    if (status === "anonymous" && !onAuthPage) navigate({ to: "/auth" });
+    if (status === "authenticated" && onAuthPage) navigate({ to: "/" });
+  }, [status, onAuthPage, navigate]);
+
+  if (onAuthPage) {
+    return status === "authenticated" ? <BootScreen /> : <Outlet />;
+  }
+  if (status !== "authenticated") return <BootScreen />;
+  return (
+    <AppShell>
+      <Outlet />
+    </AppShell>
+  );
+}
+
+function BootScreen() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+        <span className="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        Loading Scholaris
+      </div>
+    </div>
   );
 }
 

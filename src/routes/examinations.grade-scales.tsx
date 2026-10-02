@@ -1,47 +1,77 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
-import { gradeScales } from "@/lib/erp-data";
+import { endpointLabel, pageHead, payload, useCreate, useList, useSchoolField } from "@/lib/resources";
+
+const DESCRIPTION = "Score bands and remarks used to grade results.";
 
 export const Route = createFileRoute("/examinations/grade-scales")({
-  head: () => ({
-    meta: [
-      { title: "Grade scales — Scholaris ERP" },
-      { name: "description", content: "Score bands, points and remarks used to grade results." },
-      { property: "og:title", content: "Grade scales — Scholaris ERP" },
-      { property: "og:description", content: "Score bands, points and remarks used to grade results." },
-    ],
-  }),
+  head: pageHead("Grade scales", DESCRIPTION),
   component: Page,
 });
 
-type Row = (typeof gradeScales)[number];
+type Row = {
+  id: number;
+  grade: string;
+  scale: string;
+  from: number;
+  to: number;
+  remark: string;
+  order: number;
+};
 
 const columns: Column<Row>[] = [
-    { key: "grade", header: "Grade", sortable: true },
-    { key: "from", header: "From", align: "right" },
-    { key: "to", header: "To", align: "right" },
-    { key: "points", header: "Points", align: "right" },
-    { key: "remark", header: "Remark" },
+  { key: "grade", header: "Grade", sortable: true, value: (row) => row.order * 1000 - row.from },
+  { key: "scale", header: "Scale" },
+  { key: "from", header: "From", align: "right", sortable: true },
+  { key: "to", header: "To", align: "right" },
+  { key: "remark", header: "Remark" },
 ];
 
 function Page() {
+  const { data, isLoading, error } = useList("gradeScales");
+  const create = useCreate("gradeScales");
+  const schoolField = useSchoolField();
+
+  const rows = useMemo<Row[]>(
+    () =>
+      (data ?? []).map((g) => ({
+        id: g.id,
+        grade: String(g.grade),
+        scale: String(g.name),
+        from: Number(g.minimum_mark),
+        to: Number(g.maximum_mark),
+        remark: String(g.remarks || "—"),
+        order: Number(g.order ?? 0),
+      })),
+    [data],
+  );
+
   return (
-    <ModulePage
+    <ModulePage<Row>
       title="Grade scales"
-      description="Score bands, points and remarks used to grade results."
-      endpoint="GET /api/v1/grade-scales"
+      description={DESCRIPTION}
+      resource="gradeScales"
       columns={columns}
-      rows={gradeScales}
-      searchKeys={["grade", "remark"]}
+      rows={rows}
+      loading={isLoading}
+      error={error}
+      searchKeys={["grade", "scale", "remark"]}
       searchPlaceholder="Search grade scales…"
+      filterKey="scale"
       createLabel="Add grade band"
+      onCreate={async (values) => {
+        await create(payload(values, { numbers: ["minimum_mark", "maximum_mark", "order"] }));
+      }}
       createFields={[
-      {"name": "grade", "label": "Grade", "type": "text", "required": true, "half": true},
-      {"name": "points", "label": "Points", "type": "number", "required": true, "half": true},
-      {"name": "from", "label": "From score", "type": "number", "required": true, "half": true},
-      {"name": "to", "label": "To score", "type": "number", "required": true, "half": true},
-      {"name": "remark", "label": "Remark", "type": "text", "required": false, "half": false},
+        schoolField,
+        { name: "name", label: "Scale name", required: true, half: true, placeholder: "KCSE 12-point" },
+        { name: "grade", label: "Grade", required: true, half: true, placeholder: "A" },
+        { name: "order", label: "Order", type: "number", half: true, defaultValue: "0" },
+        { name: "minimum_mark", label: "From score", type: "number", required: true, half: true },
+        { name: "maximum_mark", label: "To score", type: "number", required: true, half: true },
+        { name: "remarks", label: "Remark", placeholder: "Excellent" },
       ]}
     />
   );

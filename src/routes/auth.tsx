@@ -5,15 +5,8 @@ import { AuthLayout } from "@/components/erp/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useRole } from "@/components/erp/role-context";
-import { ROLES, type Role } from "@/lib/erp-data";
+import { ApiError } from "@/lib/api";
+import { displayName, useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -32,27 +25,35 @@ export const Route = createFileRoute("/auth")({
 
 function SignIn() {
   const navigate = useNavigate();
-  const { setRole } = useRole();
-  const [email, setEmail] = useState("amina.hassan@scholaris.io");
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setLocalRole] = useState<Role>("Super Admin");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const submit = (event: React.FormEvent) => {
+  const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!email.includes("@") || password.length < 4) {
-      setError("Enter a valid email and a password of at least 4 characters.");
+    if (!email.includes("@") || !password) {
+      setError("Enter your email address and password.");
       return;
     }
     setError(null);
     setLoading(true);
-    setTimeout(() => {
-      setRole(role);
-      setLoading(false);
-      toast.success(`Signed in as ${role}`);
+    try {
+      const me = await login(email, password);
+      toast.success(`Signed in as ${displayName(me)}`);
       navigate({ to: "/" });
-    }, 600);
+    } catch (err) {
+      setError(
+        err instanceof ApiError && err.status === 401
+          ? "Incorrect email or password."
+          : err instanceof Error
+            ? err.message
+            : "Sign in failed.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,6 +72,7 @@ function SignIn() {
           <Input
             id="email"
             type="email"
+            autoComplete="username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@school.io"
@@ -81,25 +83,11 @@ function SignIn() {
           <Input
             id="password"
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
           />
-        </div>
-        <div className="space-y-1.5">
-          <Label>Sign in as</Label>
-          <Select value={role} onValueChange={(v) => setLocalRole(v as Role)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {ROLES.map((r) => (
-                <SelectItem key={r} value={r}>
-                  {r}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
         {error ? <p className="text-xs text-destructive">{error}</p> : null}
         <Button type="submit" className="w-full" disabled={loading}>
