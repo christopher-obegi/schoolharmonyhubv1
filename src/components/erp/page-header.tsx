@@ -3,12 +3,10 @@ import type { ReactNode } from "react";
 export function PageHeader({
   title,
   description,
-  endpoint,
   actions,
 }: {
   title: string;
   description?: string | undefined;
-  endpoint?: string | undefined;
   actions?: ReactNode;
 }) {
   return (
@@ -17,11 +15,6 @@ export function PageHeader({
         <h1 className="font-display truncate text-2xl font-semibold text-foreground">{title}</h1>
         {description ? (
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p>
-        ) : null}
-        {endpoint ? (
-          <code className="mt-2 inline-block rounded-md border border-border bg-muted px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
-            {endpoint}
-          </code>
         ) : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}

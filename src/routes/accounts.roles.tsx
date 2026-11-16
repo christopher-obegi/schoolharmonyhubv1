@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
-import { endpointLabel, pageHead, payload, useCreate, useList } from "@/lib/resources";
+import { pageHead, payload, useCreate, useList } from "@/lib/resources";
 
 const DESCRIPTION = "Role definitions, codes and permission counts.";
 

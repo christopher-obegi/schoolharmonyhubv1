@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
-import { activeStatus, endpointLabel, pageHead, payload, useCreate, useList } from "@/lib/resources";
+import { activeStatus, pageHead, payload, useCreate, useList } from "@/lib/resources";
 
 const DESCRIPTION = "Manage tenant schools, codes, contacts and activation status.";
 

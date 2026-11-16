@@ -4,7 +4,6 @@ import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import {
   choices,
-  endpointLabel,
   humanize,
   pageHead,
   payload,

@@ -5,7 +5,7 @@ import { SectionCard } from "@/components/erp/page-header";
 import type { Column } from "@/components/erp/data-table";
 import { TrendLineChart } from "@/components/erp/charts";
 import { attendanceTrend } from "@/lib/analytics";
-import { endpointLabel, pageHead, useList, useLookup } from "@/lib/resources";
+import { pageHead, useList, useLookup } from "@/lib/resources";
 
 const DESCRIPTION = "Attendance rates per learner and term, and the daily trend.";
 

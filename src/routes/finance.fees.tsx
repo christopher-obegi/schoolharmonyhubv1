@@ -6,7 +6,6 @@ import { StatusBadge } from "@/components/erp/status-badge";
 import {
   BOOLEAN_OPTIONS,
   activeStatus,
-  endpointLabel,
   money,
   pageHead,
   payload,

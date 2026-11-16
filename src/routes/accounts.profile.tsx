@@ -74,7 +74,6 @@ function Page() {
       <PageHeader
         title="My profile"
         description={DESCRIPTION}
-        endpoint="GET /api/accounts/profile/"
         actions={
           <>
             <RecordDialog

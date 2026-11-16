@@ -88,9 +88,6 @@ export function useCan() {
   return useCallback((resource: Resource, write = false) => can(AREAS[resource], write), [can]);
 }
 
-/** Shown in each page header so it is clear which endpoint feeds the table. */
-export const endpointLabel = (resource: Resource) => `GET ${ENDPOINTS[resource]}`;
-
 /** Every field name the UI reads from API rows (snake_case, as DRF returns them). */
 type ApiField =
   | "absent_days" | "academic_class" | "academic_year" | "action" | "admission_date"

@@ -6,7 +6,6 @@ import { StatusBadge } from "@/components/erp/status-badge";
 import {
   activeStatus,
   choices,
-  endpointLabel,
   humanize,
   pageHead,
   payload,

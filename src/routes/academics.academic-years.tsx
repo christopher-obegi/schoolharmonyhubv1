@@ -5,7 +5,6 @@ import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
 import {
   BOOLEAN_OPTIONS,
-  endpointLabel,
   pageHead,
   payload,
   shortDate,

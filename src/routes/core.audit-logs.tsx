@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
-import { dateTime, endpointLabel, humanize, pageHead, useList } from "@/lib/resources";
+import { dateTime, humanize, pageHead, useList } from "@/lib/resources";
 
 const DESCRIPTION = "Immutable trail of every privileged action across the platform.";
 

@@ -7,7 +7,6 @@ import {
   BOOLEAN_OPTIONS,
   activeStatus,
   choices,
-  endpointLabel,
   humanize,
   pageHead,
   payload,

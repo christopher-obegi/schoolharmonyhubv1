@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import {
   choices,
   currentId,
-  endpointLabel,
   humanize,
   pageHead,
   payload,

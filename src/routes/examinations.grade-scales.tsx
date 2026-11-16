@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
-import { endpointLabel, pageHead, payload, useCreate, useList, useSchoolField } from "@/lib/resources";
+import { pageHead, payload, useCreate, useList, useSchoolField } from "@/lib/resources";
 
 const DESCRIPTION = "Score bands and remarks used to grade results.";
 

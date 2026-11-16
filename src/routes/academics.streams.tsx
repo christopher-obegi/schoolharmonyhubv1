@@ -4,7 +4,6 @@ import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
 import {
-  endpointLabel,
   pageHead,
   payload,
   useCreate,

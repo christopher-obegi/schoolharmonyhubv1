@@ -4,7 +4,7 @@ import { ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader, SectionCard } from "@/components/erp/page-header";
-import { endpointLabel, pageHead, useList } from "@/lib/resources";
+import { pageHead, useList } from "@/lib/resources";
 
 const DESCRIPTION = "Permissions by module and the roles that hold them.";
 
@@ -41,7 +41,7 @@ function Page() {
 
   return (
     <>
-      <PageHeader title="Permissions" description={DESCRIPTION} endpoint={endpointLabel("permissions")} />
+      <PageHeader title="Permissions" description={DESCRIPTION} />
 
       {error ? (
         <SectionCard title="Permissions">

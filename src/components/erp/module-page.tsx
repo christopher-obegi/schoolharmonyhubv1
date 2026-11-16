@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader, SectionCard } from "./page-header";
 import { DataTable, FilterChips, type Column } from "./data-table";
 import { RecordDialog, type Field } from "./forms";
-import { endpointLabel, useCan, type Resource } from "@/lib/resources";
+import { useCan, type Resource } from "@/lib/resources";
 
 /**
  * Standard module screen: header + optional aside content + filterable data table
@@ -36,7 +36,7 @@ export function ModulePage<T extends Record<string, unknown>>({
 }: {
   title: string;
   description?: string | undefined;
-  /** The API resource listed here: sets the endpoint label and who may create. */
+  /** The API resource listed here: sets who may create. */
   resource: Resource;
   columns: Column<T>[];
   rows: T[];
@@ -95,7 +95,6 @@ export function ModulePage<T extends Record<string, unknown>>({
       <PageHeader
         title={title}
         description={description}
-        endpoint={endpointLabel(resource)}
         actions={
           <>
             {extraActions}

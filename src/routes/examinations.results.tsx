@@ -5,7 +5,7 @@ import { SectionCard } from "@/components/erp/page-header";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
 import { ComparisonBarChart } from "@/components/erp/charts";
-import { endpointLabel, humanize, pageHead, useList, useLookup } from "@/lib/resources";
+import { humanize, pageHead, useList, useLookup } from "@/lib/resources";
 
 const DESCRIPTION = "Published results, rankings and mean scores per exam.";
 
