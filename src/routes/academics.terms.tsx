@@ -83,7 +83,9 @@ function Page() {
       filterKey="year"
       createLabel="Add term"
       onCreate={async (values) => {
-        await create(payload(values, { numbers: ["number"], booleans: ["is_current", "is_active"] }));
+        await create(
+          payload(values, { numbers: ["number"], booleans: ["is_current", "is_active"] }),
+        );
       }}
       createFields={[
         {
@@ -96,11 +98,32 @@ function Page() {
           defaultValue: currentId(years.rows),
         },
         { name: "name", label: "Term name", required: true, half: true, placeholder: "Term 1" },
-        { name: "number", label: "Term number", type: "number", required: true, half: true, placeholder: "1" },
-        { name: "is_current", label: "Current term", type: "select", half: true, options: BOOLEAN_OPTIONS, defaultValue: "false" },
+        {
+          name: "number",
+          label: "Term number",
+          type: "number",
+          required: true,
+          half: true,
+          placeholder: "1",
+        },
+        {
+          name: "is_current",
+          label: "Current term",
+          type: "select",
+          half: true,
+          options: BOOLEAN_OPTIONS,
+          defaultValue: "false",
+        },
         { name: "start_date", label: "Start date", type: "date", required: true, half: true },
         { name: "end_date", label: "End date", type: "date", required: true, half: true },
-        { name: "is_active", label: "Active", type: "select", half: true, options: BOOLEAN_OPTIONS, defaultValue: "true" },
+        {
+          name: "is_active",
+          label: "Active",
+          type: "select",
+          half: true,
+          options: BOOLEAN_OPTIONS,
+          defaultValue: "true",
+        },
       ]}
     />
   );

@@ -36,7 +36,11 @@ type Row = {
 
 const columns: Column<Row>[] = [
   { key: "name", header: "Class", sortable: true, value: (row) => row.order * 1000 + row.id },
-  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  {
+    key: "code",
+    header: "Code",
+    render: (row) => <span className="font-mono text-xs">{row.code}</span>,
+  },
   { key: "level", header: "Level" },
   { key: "school", header: "School" },
   { key: "streams", header: "Streams", align: "right" },
@@ -95,16 +99,35 @@ function Page() {
       createFields={[
         schoolField,
         { name: "name", label: "Class name", required: true, half: true, placeholder: "Form 1" },
-        { name: "code", label: "Code", required: true, half: true, placeholder: "F1", hint: "Unique across all schools" },
+        {
+          name: "code",
+          label: "Code",
+          required: true,
+          half: true,
+          placeholder: "F1",
+          hint: "Unique across all schools",
+        },
         {
           name: "education_level",
           label: "Education level",
           type: "select",
           required: true,
           half: true,
-          options: choices("PRIMARY", "JUNIOR_SECONDARY", "SENIOR_SECONDARY", "COLLEGE", "UNIVERSITY"),
+          options: choices(
+            "PRIMARY",
+            "JUNIOR_SECONDARY",
+            "SENIOR_SECONDARY",
+            "COLLEGE",
+            "UNIVERSITY",
+          ),
         },
-        { name: "display_order", label: "Display order", type: "number", half: true, defaultValue: "0" },
+        {
+          name: "display_order",
+          label: "Display order",
+          type: "number",
+          half: true,
+          defaultValue: "0",
+        },
         { name: "description", label: "Description", type: "textarea" },
       ]}
     />

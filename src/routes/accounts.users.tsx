@@ -11,7 +11,6 @@ import { useAuth } from "@/lib/auth";
 import {
   activeStatus,
   dateTime,
-
   pageHead,
   payload,
   useCan,
@@ -76,7 +75,11 @@ function Page() {
           id: u.id,
           name: `${u.first_name ?? ""} ${u.last_name ?? ""}`.trim() || String(u.username),
           email: String(u.email),
-          role: u.is_superuser ? "Super Admin" : codes.length ? codes.map(roleName).join(", ") : "No role",
+          role: u.is_superuser
+            ? "Super Admin"
+            : codes.length
+              ? codes.map(roleName).join(", ")
+              : "No role",
           codes,
           school: schools.name(u.school),
           lastLogin: u.last_login ? dateTime(u.last_login) : "Never",
@@ -100,7 +103,15 @@ function Page() {
         title={`Roles for ${row.name}`}
         description="A user can hold several roles; they get the combined access of all of them."
         submitLabel="Save roles"
-        fields={[{ name: "role_codes", label: "Roles", type: "checkboxes", options: roleOptions, defaultValue: row.codes.join(",") }]}
+        fields={[
+          {
+            name: "role_codes",
+            label: "Roles",
+            type: "checkboxes",
+            options: roleOptions,
+            defaultValue: row.codes.join(","),
+          },
+        ]}
         onSubmit={async (values) => {
           await api(`/api/accounts/users/${row.id}/roles/`, {
             method: "POST",
@@ -152,7 +163,9 @@ function Page() {
           label: "Roles",
           type: "checkboxes",
           options: roleOptions,
-          hint: roleOptions.length ? "Pick one or more." : "No roles defined yet. Create one under Roles.",
+          hint: roleOptions.length
+            ? "Pick one or more."
+            : "No roles defined yet. Create one under Roles.",
         },
       ]}
     />

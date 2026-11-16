@@ -23,7 +23,11 @@ type Row = {
 
 const columns: Column<Row>[] = [
   { key: "name", header: "Role", sortable: true },
-  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  {
+    key: "code",
+    header: "Code",
+    render: (row) => <span className="font-mono text-xs">{row.code}</span>,
+  },
   { key: "description", header: "Description" },
   { key: "permissions", header: "Permissions", sortable: true, align: "right" },
   { key: "type", header: "Type", render: (row) => <StatusBadge status={row.type} /> },

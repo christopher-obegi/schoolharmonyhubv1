@@ -137,7 +137,14 @@ export function MixDonutChart({ data }: { data: { name: string; value: number }[
     <ResponsiveContainer width="100%" height={240}>
       <PieChart>
         <Tooltip {...tooltipStyle} />
-        <Pie data={data} dataKey="value" nameKey="name" innerRadius={58} outerRadius={92} paddingAngle={3}>
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          innerRadius={58}
+          outerRadius={92}
+          paddingAngle={3}
+        >
           {data.map((entry, i) => (
             <Cell key={entry.name} fill={PIE_COLORS[i % PIE_COLORS.length]} stroke="none" />
           ))}

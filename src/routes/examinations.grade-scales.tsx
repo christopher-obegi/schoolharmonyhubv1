@@ -66,7 +66,13 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "name", label: "Scale name", required: true, half: true, placeholder: "KCSE 12-point" },
+        {
+          name: "name",
+          label: "Scale name",
+          required: true,
+          half: true,
+          placeholder: "KCSE 12-point",
+        },
         { name: "grade", label: "Grade", required: true, half: true, placeholder: "A" },
         { name: "order", label: "Order", type: "number", half: true, defaultValue: "0" },
         { name: "minimum_mark", label: "From score", type: "number", required: true, half: true },

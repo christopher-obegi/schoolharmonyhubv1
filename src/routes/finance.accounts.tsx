@@ -29,7 +29,13 @@ const columns: Column<Row>[] = [
   { key: "invoiced", header: "Invoiced", align: "right" },
   { key: "paid", header: "Paid", align: "right" },
   { key: "discount", header: "Discounts", align: "right" },
-  { key: "balance", header: "Balance", align: "right", sortable: true, value: (row) => row.balanceValue },
+  {
+    key: "balance",
+    header: "Balance",
+    align: "right",
+    sortable: true,
+    value: (row) => row.balanceValue,
+  },
   { key: "lastPayment", header: "Last payment" },
   { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
 ];

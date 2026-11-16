@@ -26,7 +26,14 @@ export const Route = createFileRoute("/reports")({
   component: Page,
 });
 
-type AuditRow = { id: number; actor: string; action: string; target: string; at: string; timestamp: string };
+type AuditRow = {
+  id: number;
+  actor: string;
+  action: string;
+  target: string;
+  at: string;
+  timestamp: string;
+};
 type DiscountRow = {
   id: number;
   name: string;
@@ -57,7 +64,10 @@ function downloadCsv(filename: string, rows: Record<string, string | number>[]) 
   if (!rows.length) return;
   const headers = Object.keys(rows[0]!);
   const escape = (value: string | number) => `"${String(value).replace(/"/g, '""')}"`;
-  const csv = [headers.join(","), ...rows.map((row) => headers.map((h) => escape(row[h] ?? "")).join(","))].join("\n");
+  const csv = [
+    headers.join(","),
+    ...rows.map((row) => headers.map((h) => escape(row[h] ?? "")).join(",")),
+  ].join("\n");
   const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
   const link = Object.assign(document.createElement("a"), { href: url, download: filename });
   link.click();
@@ -74,8 +84,14 @@ function Page() {
   const studentNames = useLookup("students");
   const classes = useLookup("classes");
 
-  const totals = useMemo(() => feeTotals(invoices.data ?? [], payments.data ?? []), [invoices.data, payments.data]);
-  const monthly = useMemo(() => monthlyFinance(invoices.data ?? [], payments.data ?? []), [invoices.data, payments.data]);
+  const totals = useMemo(
+    () => feeTotals(invoices.data ?? [], payments.data ?? []),
+    [invoices.data, payments.data],
+  );
+  const monthly = useMemo(
+    () => monthlyFinance(invoices.data ?? [], payments.data ?? []),
+    [invoices.data, payments.data],
+  );
   const collectionRate = totals.invoiced ? (totals.collected / totals.invoiced) * 100 : 0;
 
   /** Paid vs outstanding per class, using each student's current class. */
@@ -152,7 +168,11 @@ function Page() {
         <KpiCard
           label="Collection rate"
           value={financeError ? "—" : `${collectionRate.toFixed(1)}%`}
-          hint={financeError ? "No access" : `${compactMoney(totals.collected)} of ${compactMoney(totals.invoiced)}`}
+          hint={
+            financeError
+              ? "No access"
+              : `${compactMoney(totals.collected)} of ${compactMoney(totals.invoiced)}`
+          }
           loading={invoices.isLoading || payments.isLoading}
           accent="navy"
         />
@@ -164,7 +184,9 @@ function Page() {
         />
         <KpiCard
           label="Active discounts"
-          value={discounts.error ? "—" : String(discountRows.filter((d) => d.status === "Active").length)}
+          value={
+            discounts.error ? "—" : String(discountRows.filter((d) => d.status === "Active").length)
+          }
           hint={discounts.error ? "No access" : `${discountRows.length} in total`}
           loading={discounts.isLoading}
           accent="gold"
@@ -178,7 +200,10 @@ function Page() {
       </div>
 
       <div className="grid gap-4 xl:grid-cols-2">
-        <SectionCard title="Collections vs invoiced" description={`KES by month, ${new Date().getFullYear()}`}>
+        <SectionCard
+          title="Collections vs invoiced"
+          description={`KES by month, ${new Date().getFullYear()}`}
+        >
           <div className="p-4">
             {financeError ? (
               <p className="py-10 text-center text-sm text-muted-foreground">
@@ -187,7 +212,9 @@ function Page() {
             ) : monthly.some((m) => m.invoiced || m.collected) ? (
               <CollectionsAreaChart data={monthly} />
             ) : (
-              <p className="py-10 text-center text-sm text-muted-foreground">No invoices or payments this year.</p>
+              <p className="py-10 text-center text-sm text-muted-foreground">
+                No invoices or payments this year.
+              </p>
             )}
           </div>
         </SectionCard>

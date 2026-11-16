@@ -4,7 +4,8 @@ import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { pageHead, payload, useCreate, useList, useLookup } from "@/lib/resources";
 
-const DESCRIPTION = "Enter subject scores per exam; percentage and grade are computed by the server.";
+const DESCRIPTION =
+  "Enter subject scores per exam; percentage and grade are computed by the server.";
 
 export const Route = createFileRoute("/examinations/marks")({
   head: pageHead("Marks entry", DESCRIPTION),
@@ -77,7 +78,14 @@ function Page() {
       }}
       createFields={[
         { name: "exam", label: "Exam", type: "select", required: true, options: exams.options },
-        { name: "student", label: "Student", type: "select", required: true, half: true, options: students.options },
+        {
+          name: "student",
+          label: "Student",
+          type: "select",
+          required: true,
+          half: true,
+          options: students.options,
+        },
         { name: "marks_obtained", label: "Score", type: "number", required: true, half: true },
         { name: "total_marks", label: "Out of", type: "number", half: true, defaultValue: "100" },
         { name: "remarks", label: "Teacher comment", type: "textarea" },

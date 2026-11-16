@@ -93,7 +93,11 @@ export function DataTable<T extends Record<string, unknown>>({
     let data = rows;
     if (q && searchKeys.length) {
       data = data.filter((row) =>
-        searchKeys.some((key) => String(row[key] ?? "").toLowerCase().includes(q)),
+        searchKeys.some((key) =>
+          String(row[key] ?? "")
+            .toLowerCase()
+            .includes(q),
+        ),
       );
     }
     if (sort) {
@@ -118,11 +122,7 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const toggleSort = (key: string) =>
     setSort((prev) =>
-      prev?.key === key
-        ? prev.dir === "asc"
-          ? { key, dir: "desc" }
-          : null
-        : { key, dir: "asc" },
+      prev?.key === key ? (prev.dir === "asc" ? { key, dir: "desc" } : null) : { key, dir: "asc" },
     );
 
   return (
@@ -235,8 +235,8 @@ export function DataTable<T extends Record<string, unknown>>({
       {!loading && filtered.length > 0 ? (
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3">
           <p className="text-xs text-muted-foreground">
-            Showing {(current - 1) * pageSize + 1}–{Math.min(current * pageSize, filtered.length)} of{" "}
-            {filtered.length} records
+            Showing {(current - 1) * pageSize + 1}–{Math.min(current * pageSize, filtered.length)}{" "}
+            of {filtered.length} records
           </p>
           <div className="flex items-center gap-2">
             <Button

@@ -34,7 +34,11 @@ type Row = {
 };
 
 const columns: Column<Row>[] = [
-  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  {
+    key: "code",
+    header: "Code",
+    render: (row) => <span className="font-mono text-xs">{row.code}</span>,
+  },
   { key: "name", header: "Subject", sortable: true },
   { key: "shortName", header: "Short name" },
   { key: "category", header: "Category" },
@@ -86,8 +90,21 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "name", label: "Subject name", required: true, half: true, placeholder: "Mathematics" },
-        { name: "code", label: "Subject code", required: true, half: true, placeholder: "MAT", hint: "Unique across all schools" },
+        {
+          name: "name",
+          label: "Subject name",
+          required: true,
+          half: true,
+          placeholder: "Mathematics",
+        },
+        {
+          name: "code",
+          label: "Subject code",
+          required: true,
+          half: true,
+          placeholder: "MAT",
+          hint: "Unique across all schools",
+        },
         { name: "short_name", label: "Short name", half: true, placeholder: "Maths" },
         {
           name: "category",
@@ -95,9 +112,25 @@ function Page() {
           type: "select",
           required: true,
           half: true,
-          options: choices("LANGUAGES", "SCIENCES", "MATHEMATICS", "HUMANITIES", "TECHNICAL", "BUSINESS", "CREATIVE_ARTS", "SPORTS"),
+          options: choices(
+            "LANGUAGES",
+            "SCIENCES",
+            "MATHEMATICS",
+            "HUMANITIES",
+            "TECHNICAL",
+            "BUSINESS",
+            "CREATIVE_ARTS",
+            "SPORTS",
+          ),
         },
-        { name: "is_compulsory", label: "Compulsory (core)", type: "select", half: true, options: BOOLEAN_OPTIONS, defaultValue: "true" },
+        {
+          name: "is_compulsory",
+          label: "Compulsory (core)",
+          type: "select",
+          half: true,
+          options: BOOLEAN_OPTIONS,
+          defaultValue: "true",
+        },
         { name: "description", label: "Description", type: "textarea" },
       ]}
     />

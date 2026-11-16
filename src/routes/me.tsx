@@ -8,7 +8,13 @@ import { KpiCard } from "@/components/erp/kpi-card";
 import { ComparisonBarChart } from "@/components/erp/charts";
 import { useAuth } from "@/lib/auth";
 import { useRole } from "@/components/erp/role-context";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { humanize, money, pageHead, shortDate, useList, useLookup } from "@/lib/resources";
 
 const DESCRIPTION = "Your results, attendance and fee position.";
@@ -18,8 +24,23 @@ export const Route = createFileRoute("/me")({
   component: Page,
 });
 
-type ResultRow = { id: number; exam: string; subject: string; score: string; percentage: number; grade: string; rank: string };
-type InvoiceRow = { id: number; number: string; due: string; amount: string; balance: string; status: string };
+type ResultRow = {
+  id: number;
+  exam: string;
+  subject: string;
+  score: string;
+  percentage: number;
+  grade: string;
+  rank: string;
+};
+type InvoiceRow = {
+  id: number;
+  number: string;
+  due: string;
+  amount: string;
+  balance: string;
+  status: string;
+};
 
 const resultColumns: Column<ResultRow>[] = [
   { key: "exam", header: "Exam", sortable: true },
@@ -104,7 +125,9 @@ function Page() {
     [summaries.data, me],
   );
 
-  const mean = myResults.length ? myResults.reduce((t, r) => t + r.percentage, 0) / myResults.length : null;
+  const mean = myResults.length
+    ? myResults.reduce((t, r) => t + r.percentage, 0) / myResults.length
+    : null;
   const balance = (invoices.data ?? [])
     .filter((i) => me && Number(i.student) === me.id)
     .reduce((t, i) => t + Number(i.balance), 0);
@@ -122,7 +145,8 @@ function Page() {
             <UserRound className="mt-0.5 size-4 shrink-0" />
             <p>
               The portal shows data for the student linked to your login. An administrator links a
-              student to a user account through the student record's <code className="font-mono">user</code> field.
+              student to a user account through the student record's{" "}
+              <code className="font-mono">user</code> field.
             </p>
           </div>
         </SectionCard>
@@ -154,8 +178,17 @@ function Page() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Mean score" value={mean == null ? "—" : `${mean.toFixed(1)}%`} hint={`${myResults.length} results`} />
-        <KpiCard label="Status" value={humanize(me.status)} hint={`Admitted ${shortDate(me.admission_date)}`} accent="navy" />
+        <KpiCard
+          label="Mean score"
+          value={mean == null ? "—" : `${mean.toFixed(1)}%`}
+          hint={`${myResults.length} results`}
+        />
+        <KpiCard
+          label="Status"
+          value={humanize(me.status)}
+          hint={`Admitted ${shortDate(me.admission_date)}`}
+          accent="navy"
+        />
         <KpiCard
           label="Attendance"
           value={attendance ? `${Number(attendance.attendance_percentage).toFixed(1)}%` : "—"}
@@ -165,7 +198,13 @@ function Page() {
         <KpiCard
           label="Fee balance"
           value={invoices.error ? "—" : money(balance)}
-          hint={invoices.error ? "Ask the finance office" : balance > 0 ? "outstanding" : "fully settled"}
+          hint={
+            invoices.error
+              ? "Ask the finance office"
+              : balance > 0
+                ? "outstanding"
+                : "fully settled"
+          }
           accent="gold"
         />
       </div>
@@ -179,7 +218,9 @@ function Page() {
               bars={[{ key: "score", color: "var(--color-chart-1)" }]}
             />
           ) : (
-            <p className="py-10 text-center text-sm text-muted-foreground">No results published yet.</p>
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              No results published yet.
+            </p>
           )}
         </div>
       </SectionCard>

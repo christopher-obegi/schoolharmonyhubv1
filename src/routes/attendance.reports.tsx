@@ -35,7 +35,13 @@ const columns: Column<Row>[] = [
   { key: "late", header: "Late", align: "right" },
   { key: "absent", header: "Absent", align: "right" },
   { key: "excused", header: "Excused", align: "right" },
-  { key: "rate", header: "Attendance %", align: "right", sortable: true, value: (row) => row.rateValue },
+  {
+    key: "rate",
+    header: "Attendance %",
+    align: "right",
+    sortable: true,
+    value: (row) => row.rateValue,
+  },
 ];
 
 function Page() {
@@ -82,7 +88,10 @@ function Page() {
       tableTitle="Learner summaries"
       emptyDescription="Summaries are computed by the backend from marked attendance."
       above={
-        <SectionCard title="Daily attendance rate" description="Present or late, as a share of learners marked">
+        <SectionCard
+          title="Daily attendance rate"
+          description="Present or late, as a share of learners marked"
+        >
           <div className="p-4">
             {trend.length ? (
               <TrendLineChart data={trend} xKey="day" yKey="rate" />

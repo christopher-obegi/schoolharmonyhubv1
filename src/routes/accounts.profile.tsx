@@ -43,7 +43,11 @@ type AuditRow = { id: number; at: string; timestamp: string; action: string; tar
 
 const auditColumns: Column<AuditRow>[] = [
   { key: "at", header: "Time", sortable: true, value: (row) => row.timestamp },
-  { key: "action", header: "Action", render: (row) => <StatusBadge status="info" label={humanize(row.action)} /> },
+  {
+    key: "action",
+    header: "Action",
+    render: (row) => <StatusBadge status="info" label={humanize(row.action)} />,
+  },
   { key: "target", header: "Target" },
 ];
 
@@ -81,12 +85,25 @@ function Page() {
               title="Edit details"
               submitLabel="Save changes"
               fields={[
-                { name: "first_name", label: "First name", half: true, defaultValue: user.first_name },
+                {
+                  name: "first_name",
+                  label: "First name",
+                  half: true,
+                  defaultValue: user.first_name,
+                },
                 { name: "last_name", label: "Last name", half: true, defaultValue: user.last_name },
-                { name: "phone_number", label: "Phone", defaultValue: user.phone_number, placeholder: "+254712345678" },
+                {
+                  name: "phone_number",
+                  label: "Phone",
+                  defaultValue: user.phone_number,
+                  placeholder: "+254712345678",
+                },
               ]}
               onSubmit={async (values) => {
-                await api("/api/accounts/profile/update/", { method: "PATCH", body: payload(values) });
+                await api("/api/accounts/profile/update/", {
+                  method: "PATCH",
+                  body: payload(values),
+                });
                 await refreshUser();
               }}
             />
@@ -95,7 +112,12 @@ function Page() {
               title="Change password"
               submitLabel="Update password"
               fields={[
-                { name: "old_password", label: "Current password", type: "password", required: true },
+                {
+                  name: "old_password",
+                  label: "Current password",
+                  type: "password",
+                  required: true,
+                },
                 {
                   name: "new_password",
                   label: "New password",
@@ -123,7 +145,8 @@ function Page() {
               <Phone className="size-4" /> {user.phone_number || "No phone number"}
             </p>
             <p className="flex items-center gap-2 text-muted-foreground">
-              <Clock className="size-4" /> Last login: {user.last_login ? dateTime(user.last_login) : "—"}
+              <Clock className="size-4" /> Last login:{" "}
+              {user.last_login ? dateTime(user.last_login) : "—"}
             </p>
             <p className="flex items-center gap-2 text-muted-foreground">
               <Shield className="size-4" /> Signed in as: {role}
@@ -137,7 +160,9 @@ function Page() {
             {user.roles.map((code) => (
               <Badge key={code}>{humanize(code)}</Badge>
             ))}
-            {!user.is_superuser && !user.roles.length ? <Badge variant="outline">No roles assigned</Badge> : null}
+            {!user.is_superuser && !user.roles.length ? (
+              <Badge variant="outline">No roles assigned</Badge>
+            ) : null}
             <Badge variant="secondary">
               <Building2 className="mr-1 size-3" />
               {user.school != null ? schools.name(user.school) : "All schools"}

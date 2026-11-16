@@ -90,25 +90,109 @@ export function useCan() {
 
 /** Every field name the UI reads from API rows (snake_case, as DRF returns them). */
 type ApiField =
-  | "absent_days" | "academic_class" | "academic_year" | "action" | "admission_date"
-  | "admission_number" | "amount" | "assessment_type" | "attendance_date"
-  | "attendance_percentage" | "attendance_session" | "balance" | "capacity" | "category"
-  | "city" | "class_field" | "class_name" | "class_teacher" | "code" | "country"
-  | "current_balance" | "current_class" | "current_stream" | "description" | "discount_type"
-  | "display_order" | "document_type" | "due_date" | "education_level" | "email" | "end_date"
-  | "enrollment_date" | "exam" | "exam_type" | "excused_days" | "fee_category" | "file"
-  | "first_name" | "full_name" | "gender" | "grade" | "invoice" | "invoice_number"
-  | "ip_address" | "is_active" | "is_compulsory" | "is_current" | "is_mandatory" | "is_published"
-  | "is_superuser" | "is_system_role" | "issue_date" | "last_login" | "last_name"
-  | "last_payment_date" | "late_days" | "marks_obtained" | "maximum_mark" | "minimum_mark"
-  | "model_name" | "name" | "number" | "object_id" | "occupation" | "order" | "pass_mark"
-  | "payment" | "payment_date" | "payment_method" | "payment_reference" | "percentage"
-  | "permissions" | "phone_number" | "present_days" | "rank" | "receipt_number" | "records"
-  | "registration_number" | "relationship" | "remarks" | "roles" | "school" | "session_type"
-  | "short_name" | "start_date" | "status" | "stream" | "student" | "subject" | "teacher"
-  | "term" | "time_marked" | "timestamp" | "total_amount" | "total_discount"
-  | "total_invoiced" | "total_marks" | "total_paid" | "transaction_reference"
-  | "uploaded_at" | "user" | "username" | "value";
+  | "absent_days"
+  | "academic_class"
+  | "academic_year"
+  | "action"
+  | "admission_date"
+  | "admission_number"
+  | "amount"
+  | "assessment_type"
+  | "attendance_date"
+  | "attendance_percentage"
+  | "attendance_session"
+  | "balance"
+  | "capacity"
+  | "category"
+  | "city"
+  | "class_field"
+  | "class_name"
+  | "class_teacher"
+  | "code"
+  | "country"
+  | "current_balance"
+  | "current_class"
+  | "current_stream"
+  | "description"
+  | "discount_type"
+  | "display_order"
+  | "document_type"
+  | "due_date"
+  | "education_level"
+  | "email"
+  | "end_date"
+  | "enrollment_date"
+  | "exam"
+  | "exam_type"
+  | "excused_days"
+  | "fee_category"
+  | "file"
+  | "first_name"
+  | "full_name"
+  | "gender"
+  | "grade"
+  | "invoice"
+  | "invoice_number"
+  | "ip_address"
+  | "is_active"
+  | "is_compulsory"
+  | "is_current"
+  | "is_mandatory"
+  | "is_published"
+  | "is_superuser"
+  | "is_system_role"
+  | "issue_date"
+  | "last_login"
+  | "last_name"
+  | "last_payment_date"
+  | "late_days"
+  | "marks_obtained"
+  | "maximum_mark"
+  | "minimum_mark"
+  | "model_name"
+  | "name"
+  | "number"
+  | "object_id"
+  | "occupation"
+  | "order"
+  | "pass_mark"
+  | "payment"
+  | "payment_date"
+  | "payment_method"
+  | "payment_reference"
+  | "percentage"
+  | "permissions"
+  | "phone_number"
+  | "present_days"
+  | "rank"
+  | "receipt_number"
+  | "records"
+  | "registration_number"
+  | "relationship"
+  | "remarks"
+  | "roles"
+  | "school"
+  | "session_type"
+  | "short_name"
+  | "start_date"
+  | "status"
+  | "stream"
+  | "student"
+  | "subject"
+  | "teacher"
+  | "term"
+  | "time_marked"
+  | "timestamp"
+  | "total_amount"
+  | "total_discount"
+  | "total_invoiced"
+  | "total_marks"
+  | "total_paid"
+  | "transaction_reference"
+  | "uploaded_at"
+  | "user"
+  | "username"
+  | "value";
 
 /** A row from any list endpoint. Values are whatever the serializer returned. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,7 +209,8 @@ export function useList<T = Row>(resource: Resource, options: { enabled?: boolea
     // never fetch what the user's roles cannot read.
     enabled: status === "authenticated" && readable && (options.enabled ?? true),
     staleTime: 30_000,
-    retry: (count, error) => count < 1 && !(error && "status" in error && (error as { status: number }).status === 403),
+    retry: (count, error) =>
+      count < 1 && !(error && "status" in error && (error as { status: number }).status === 403),
   });
   if (status === "authenticated" && !readable) {
     return { ...query, data: undefined, error: NO_ACCESS, isLoading: false };
@@ -175,7 +260,10 @@ export function useLookup(resource: Resource, options: { enabled?: boolean } = {
     const label = LABELS[resource] ?? ((r: Row) => String(r.name ?? r.id));
     const map = new Map<number, string>();
     for (const row of query.data ?? []) map.set(row.id, label(row));
-    const opts: Option[] = (query.data ?? []).map((row) => ({ value: String(row.id), label: label(row) }));
+    const opts: Option[] = (query.data ?? []).map((row) => ({
+      value: String(row.id),
+      label: label(row),
+    }));
     return {
       name: (id: unknown) => (id == null || id === "" ? "—" : (map.get(Number(id)) ?? `#${id}`)),
       options: opts,

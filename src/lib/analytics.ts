@@ -6,7 +6,8 @@ import { humanize, shortDate, type Row } from "./resources";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-const sum = (rows: Row[], key: keyof Row) => rows.reduce((total, row) => total + Number(row[key] ?? 0), 0);
+const sum = (rows: Row[], key: keyof Row) =>
+  rows.reduce((total, row) => total + Number(row[key] ?? 0), 0);
 
 export const isSettled = (payment: Row) => payment.status === "SUCCESSFUL";
 
@@ -16,7 +17,8 @@ export function feeTotals(invoices: Row[], payments: Row[]) {
     invoiced: sum(live, "total_amount"),
     outstanding: sum(live, "balance"),
     collected: sum(payments.filter(isSettled), "amount"),
-    accountsInArrears: new Set(live.filter((i) => Number(i.balance) > 0).map((i) => i.student)).size,
+    accountsInArrears: new Set(live.filter((i) => Number(i.balance) > 0).map((i) => i.student))
+      .size,
   };
 }
 
@@ -29,7 +31,8 @@ export function monthlyFinance(invoices: Row[], payments: Row[], year = new Date
   };
   for (const invoice of invoices) {
     const m = monthOf(invoice.issue_date);
-    if (m >= 0 && invoice.status !== "CANCELLED") series[m]!.invoiced += Number(invoice.total_amount);
+    if (m >= 0 && invoice.status !== "CANCELLED")
+      series[m]!.invoiced += Number(invoice.total_amount);
   }
   for (const payment of payments.filter(isSettled)) {
     const m = monthOf(payment.payment_date);

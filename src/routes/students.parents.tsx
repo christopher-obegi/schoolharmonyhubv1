@@ -31,7 +31,11 @@ type Row = {
 const columns: Column<Row>[] = [
   { key: "name", header: "Guardian", sortable: true },
   { key: "relation", header: "Relation" },
-  { key: "phone", header: "Phone", render: (row) => <span className="font-mono text-xs">{row.phone}</span> },
+  {
+    key: "phone",
+    header: "Phone",
+    render: (row) => <span className="font-mono text-xs">{row.phone}</span>,
+  },
   { key: "email", header: "Email" },
   { key: "occupation", header: "Occupation" },
 ];

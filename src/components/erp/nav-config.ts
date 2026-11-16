@@ -66,12 +66,22 @@ export const NAV: NavSection[] = [
   {
     section: "Academics",
     items: [
-      { title: "Academic years", url: "/academics/academic-years", icon: CalendarRange, area: "academics" },
+      {
+        title: "Academic years",
+        url: "/academics/academic-years",
+        icon: CalendarRange,
+        area: "academics",
+      },
       { title: "Terms", url: "/academics/terms", icon: CalendarCheck, area: "academics" },
       { title: "Classes", url: "/academics/classes", icon: Layers, area: "academics" },
       { title: "Streams", url: "/academics/streams", icon: Layers, area: "academics" },
       { title: "Subjects", url: "/academics/subjects", icon: BookOpen, area: "academics" },
-      { title: "Subject assignments", url: "/academics/subject-assignments", icon: ClipboardList, area: "subject_assignments" },
+      {
+        title: "Subject assignments",
+        url: "/academics/subject-assignments",
+        icon: ClipboardList,
+        area: "subject_assignments",
+      },
     ],
   },
   {
@@ -79,7 +89,12 @@ export const NAV: NavSection[] = [
     items: [
       { title: "Directory", url: "/students", icon: GraduationCap, area: "students" },
       { title: "Parents & guardians", url: "/students/parents", icon: Users, area: "guardians" },
-      { title: "Enrollments", url: "/students/enrollments", icon: ClipboardCheck, area: "enrollments" },
+      {
+        title: "Enrollments",
+        url: "/students/enrollments",
+        icon: ClipboardCheck,
+        area: "enrollments",
+      },
       { title: "Documents", url: "/students/documents", icon: FolderOpen, area: "documents" },
     ],
   },
@@ -87,8 +102,18 @@ export const NAV: NavSection[] = [
     section: "Attendance",
     items: [
       { title: "Sessions", url: "/attendance/sessions", icon: CalendarCheck, area: "attendance" },
-      { title: "Mark attendance", url: "/attendance/mark", icon: ClipboardCheck, area: "attendance" },
-      { title: "Reports", url: "/attendance/reports", icon: FileBarChart, area: "attendance_summaries" },
+      {
+        title: "Mark attendance",
+        url: "/attendance/mark",
+        icon: ClipboardCheck,
+        area: "attendance",
+      },
+      {
+        title: "Reports",
+        url: "/attendance/reports",
+        icon: FileBarChart,
+        area: "attendance_summaries",
+      },
     ],
   },
   {
@@ -106,7 +131,12 @@ export const NAV: NavSection[] = [
       { title: "Fees setup", url: "/finance/fees", icon: Wallet, area: "finance" },
       { title: "Invoices", url: "/finance/invoices", icon: Receipt, area: "finance_ledger" },
       { title: "Payments", url: "/finance/payments", icon: Banknote, area: "finance_ledger" },
-      { title: "Student accounts", url: "/finance/accounts", icon: FileBarChart, area: "finance_ledger" },
+      {
+        title: "Student accounts",
+        url: "/finance/accounts",
+        icon: FileBarChart,
+        area: "finance_ledger",
+      },
     ],
   },
   {

@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { api, onSessionExpired, tokens } from "./api";
 import type { Role } from "./erp-data";
@@ -107,7 +115,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const refresh = tokens.refresh;
     if (refresh) {
       // Blacklist the refresh token; sign out locally even if this fails.
-      await api("/api/accounts/auth/logout/", { method: "POST", body: { refresh } }).catch(() => {});
+      await api("/api/accounts/auth/logout/", { method: "POST", body: { refresh } }).catch(
+        () => {},
+      );
     }
     signOutLocally();
   }, [signOutLocally]);

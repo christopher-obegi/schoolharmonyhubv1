@@ -61,7 +61,9 @@ function Page() {
                     <p className="text-sm font-semibold text-foreground">{String(role.name)}</p>
                     <Badge variant="secondary">{role.is_system_role ? "System" : "Custom"}</Badge>
                   </div>
-                  <p className="mt-2 font-mono text-[11px] text-muted-foreground">{String(role.code)}</p>
+                  <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+                    {String(role.code)}
+                  </p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {((role.permissions as unknown[]) ?? []).length} permissions
                   </p>
@@ -83,14 +85,23 @@ function Page() {
 
       <div className="grid gap-4 xl:grid-cols-2">
         {groups.map(([module, items]) => (
-          <SectionCard key={module} title={module} description={`${items.length} permission scopes`}>
+          <SectionCard
+            key={module}
+            title={module}
+            description={`${items.length} permission scopes`}
+          >
             <ul className="divide-y divide-border">
               {items.map((item) => (
-                <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-3">
+                <li
+                  key={item.id}
+                  className="flex flex-wrap items-center justify-between gap-3 px-5 py-3"
+                >
                   <div className="flex min-w-0 items-center gap-2">
                     <ShieldCheck className="size-4 shrink-0 text-teal" />
                     <div className="min-w-0">
-                      <code className="block truncate font-mono text-xs text-foreground">{item.code}</code>
+                      <code className="block truncate font-mono text-xs text-foreground">
+                        {item.code}
+                      </code>
                       <span className="text-[11px] text-muted-foreground">{item.name}</span>
                     </div>
                   </div>

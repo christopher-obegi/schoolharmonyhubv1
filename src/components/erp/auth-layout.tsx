@@ -29,8 +29,8 @@ export function AuthLayout({
             One platform for every school you run.
           </h2>
           <p className="mt-3 text-sm text-primary-foreground/75">
-            Admissions, academics, attendance, examinations and finance — governed by
-            role-based access and a full audit trail.
+            Admissions, academics, attendance, examinations and finance — governed by role-based
+            access and a full audit trail.
           </p>
           <ul className="mt-8 space-y-3 text-sm text-primary-foreground/85">
             {[

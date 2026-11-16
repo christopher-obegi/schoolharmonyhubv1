@@ -86,7 +86,13 @@ function Page() {
         await create(payload(values));
       }}
       createFields={[
-        { name: "student", label: "Student", type: "select", required: true, options: students.options },
+        {
+          name: "student",
+          label: "Student",
+          type: "select",
+          required: true,
+          options: students.options,
+        },
         {
           name: "academic_year",
           label: "Academic year",
@@ -96,9 +102,31 @@ function Page() {
           options: years.options,
           defaultValue: currentId(years.rows),
         },
-        { name: "term", label: "Term", type: "select", required: true, half: true, options: terms.options, defaultValue: currentId(terms.rows) },
-        { name: "class_field", label: "Class", type: "select", required: true, half: true, options: classes.options },
-        { name: "stream", label: "Stream", type: "select", required: true, half: true, options: streams.options },
+        {
+          name: "term",
+          label: "Term",
+          type: "select",
+          required: true,
+          half: true,
+          options: terms.options,
+          defaultValue: currentId(terms.rows),
+        },
+        {
+          name: "class_field",
+          label: "Class",
+          type: "select",
+          required: true,
+          half: true,
+          options: classes.options,
+        },
+        {
+          name: "stream",
+          label: "Stream",
+          type: "select",
+          required: true,
+          half: true,
+          options: streams.options,
+        },
         { name: "enrollment_date", label: "Enrollment date", type: "date", half: true },
         {
           name: "status",

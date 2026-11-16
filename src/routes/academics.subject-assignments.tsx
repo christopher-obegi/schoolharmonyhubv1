@@ -2,14 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
-import {
-  currentId,
-  pageHead,
-  payload,
-  useCreate,
-  useList,
-  useLookup,
-} from "@/lib/resources";
+import { currentId, pageHead, payload, useCreate, useList, useLookup } from "@/lib/resources";
 
 const DESCRIPTION = "Assign teachers to subjects per class, stream and term.";
 
@@ -78,10 +71,38 @@ function Page() {
         await create(payload(values));
       }}
       createFields={[
-        { name: "subject", label: "Subject", type: "select", required: true, half: true, options: subjects.options },
-        { name: "teacher", label: "Teacher", type: "select", required: true, half: true, options: users.options },
-        { name: "academic_class", label: "Class", type: "select", required: true, half: true, options: classes.options },
-        { name: "stream", label: "Stream", type: "select", required: true, half: true, options: streams.options },
+        {
+          name: "subject",
+          label: "Subject",
+          type: "select",
+          required: true,
+          half: true,
+          options: subjects.options,
+        },
+        {
+          name: "teacher",
+          label: "Teacher",
+          type: "select",
+          required: true,
+          half: true,
+          options: users.options,
+        },
+        {
+          name: "academic_class",
+          label: "Class",
+          type: "select",
+          required: true,
+          half: true,
+          options: classes.options,
+        },
+        {
+          name: "stream",
+          label: "Stream",
+          type: "select",
+          required: true,
+          half: true,
+          options: streams.options,
+        },
         {
           name: "academic_year",
           label: "Academic year",
@@ -91,7 +112,15 @@ function Page() {
           options: years.options,
           defaultValue: currentId(years.rows),
         },
-        { name: "term", label: "Term", type: "select", required: true, half: true, options: terms.options, defaultValue: currentId(terms.rows) },
+        {
+          name: "term",
+          label: "Term",
+          type: "select",
+          required: true,
+          half: true,
+          options: terms.options,
+          defaultValue: currentId(terms.rows),
+        },
       ]}
     />
   );

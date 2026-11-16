@@ -89,7 +89,14 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "attendance_date", label: "Date", type: "date", required: true, half: true, defaultValue: new Date().toISOString().slice(0, 10) },
+        {
+          name: "attendance_date",
+          label: "Date",
+          type: "date",
+          required: true,
+          half: true,
+          defaultValue: new Date().toISOString().slice(0, 10),
+        },
         {
           name: "academic_year",
           label: "Academic year",
@@ -99,8 +106,23 @@ function Page() {
           options: years.options,
           defaultValue: currentId(years.rows),
         },
-        { name: "term", label: "Term", type: "select", required: true, half: true, options: terms.options, defaultValue: currentId(terms.rows) },
-        { name: "class_field", label: "Class", type: "select", required: true, half: true, options: classes.options },
+        {
+          name: "term",
+          label: "Term",
+          type: "select",
+          required: true,
+          half: true,
+          options: terms.options,
+          defaultValue: currentId(terms.rows),
+        },
+        {
+          name: "class_field",
+          label: "Class",
+          type: "select",
+          required: true,
+          half: true,
+          options: classes.options,
+        },
         { name: "stream", label: "Stream", type: "select", half: true, options: streams.options },
         {
           name: "session_type",

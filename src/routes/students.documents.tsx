@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
-import { choices, dateTime, humanize, pageHead, useCreate, useList, useLookup } from "@/lib/resources";
+import {
+  choices,
+  dateTime,
+  humanize,
+  pageHead,
+  useCreate,
+  useList,
+  useLookup,
+} from "@/lib/resources";
 
 const DESCRIPTION = "Uploaded certificates, reports and identity documents per student.";
 
@@ -29,7 +37,12 @@ const columns: Column<Row>[] = [
     header: "File",
     render: (row) =>
       row.url ? (
-        <a href={row.url} target="_blank" rel="noreferrer" className="font-mono text-xs text-primary hover:underline">
+        <a
+          href={row.url}
+          target="_blank"
+          rel="noreferrer"
+          className="font-mono text-xs text-primary hover:underline"
+        >
           {row.file}
         </a>
       ) : (
@@ -84,7 +97,13 @@ function Page() {
         await create(form);
       }}
       createFields={[
-        { name: "student", label: "Student", type: "select", required: true, options: students.options },
+        {
+          name: "student",
+          label: "Student",
+          type: "select",
+          required: true,
+          options: students.options,
+        },
         {
           name: "document_type",
           label: "Document type",

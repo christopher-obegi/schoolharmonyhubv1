@@ -58,7 +58,8 @@ export function ModulePage<T extends Record<string, unknown>>({
   /** A fetch error to show in place of the table. */
   error?: unknown;
   /** Persists a new record; throw to keep the dialog open and show the error. */
-  onCreate?: ((values: Record<string, string>, files: Record<string, File>) => Promise<void>) | undefined;
+  onCreate?:
+    ((values: Record<string, string>, files: Record<string, File>) => Promise<void>) | undefined;
   /** Per-row actions (buttons) shown at the end of each row. */
   rowActions?: ((row: T) => ReactNode) | undefined;
 }) {
@@ -115,27 +116,27 @@ export function ModulePage<T extends Record<string, unknown>>({
             </div>
           </div>
         ) : (
-        <DataTable<T>
-          loading={loading}
-          rowActions={rowActions}
-          columns={columns}
-          rows={visible}
-          searchKeys={searchKeys}
-          searchPlaceholder={searchPlaceholder}
-          pageSize={pageSize}
-          emptyTitle={emptyTitle}
-          emptyDescription={emptyDescription}
-          toolbar={
-            filterKey && filterOptions.length > 2 ? (
-              <FilterChips
-                label="Filter"
-                options={filterOptions}
-                value={filter}
-                onChange={setFilter}
-              />
-            ) : null
-          }
-        />
+          <DataTable<T>
+            loading={loading}
+            rowActions={rowActions}
+            columns={columns}
+            rows={visible}
+            searchKeys={searchKeys}
+            searchPlaceholder={searchPlaceholder}
+            pageSize={pageSize}
+            emptyTitle={emptyTitle}
+            emptyDescription={emptyDescription}
+            toolbar={
+              filterKey && filterOptions.length > 2 ? (
+                <FilterChips
+                  label="Filter"
+                  options={filterOptions}
+                  value={filter}
+                  onChange={setFilter}
+                />
+              ) : null
+            }
+          />
         )}
       </SectionCard>
       {below}

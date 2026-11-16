@@ -26,7 +26,12 @@ type Row = {
 };
 
 const columns: Column<Row>[] = [
-  { key: "pos", header: "Pos.", sortable: true, value: (row) => (typeof row.pos === "number" ? row.pos : 1e9) },
+  {
+    key: "pos",
+    header: "Pos.",
+    sortable: true,
+    value: (row) => (typeof row.pos === "number" ? row.pos : 1e9),
+  },
   { key: "name", header: "Student", sortable: true },
   { key: "exam", header: "Exam" },
   { key: "score", header: "Score", align: "right" },

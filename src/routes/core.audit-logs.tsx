@@ -40,7 +40,9 @@ const columns: Column<Row>[] = [
   {
     key: "action",
     header: "Action",
-    render: (row) => <StatusBadge status={ACTION_TONE[row.action] ?? "info"} label={humanize(row.action)} />,
+    render: (row) => (
+      <StatusBadge status={ACTION_TONE[row.action] ?? "info"} label={humanize(row.action)} />
+    ),
   },
   { key: "target", header: "Target" },
   { key: "description", header: "Description" },

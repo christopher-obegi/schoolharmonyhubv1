@@ -133,7 +133,9 @@ export async function api<T = unknown>(path: string, options: RequestOptions = {
     return fetch(url, {
       method,
       headers,
-      ...(body === undefined ? {} : { body: multipart ? (body as FormData) : JSON.stringify(body) }),
+      ...(body === undefined
+        ? {}
+        : { body: multipart ? (body as FormData) : JSON.stringify(body) }),
     });
   };
 

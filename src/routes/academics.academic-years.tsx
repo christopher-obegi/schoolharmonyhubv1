@@ -35,7 +35,11 @@ type Row = {
 
 const columns: Column<Row>[] = [
   { key: "name", header: "Year", sortable: true },
-  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  {
+    key: "code",
+    header: "Code",
+    render: (row) => <span className="font-mono text-xs">{row.code}</span>,
+  },
   { key: "school", header: "School" },
   { key: "starts", header: "Starts", sortable: true, value: (row) => row.startRaw },
   { key: "ends", header: "Ends" },
@@ -88,10 +92,24 @@ function Page() {
       createFields={[
         schoolField,
         { name: "name", label: "Name", required: true, half: true, placeholder: "2026" },
-        { name: "code", label: "Code", required: true, half: true, placeholder: "AY2026", hint: "Unique across all schools" },
+        {
+          name: "code",
+          label: "Code",
+          required: true,
+          half: true,
+          placeholder: "AY2026",
+          hint: "Unique across all schools",
+        },
         { name: "start_date", label: "Start date", type: "date", required: true, half: true },
         { name: "end_date", label: "End date", type: "date", required: true, half: true },
-        { name: "is_current", label: "Current year", type: "select", half: true, options: BOOLEAN_OPTIONS, defaultValue: "false" },
+        {
+          name: "is_current",
+          label: "Current year",
+          type: "select",
+          half: true,
+          options: BOOLEAN_OPTIONS,
+          defaultValue: "false",
+        },
         {
           name: "is_active",
           label: "Active",

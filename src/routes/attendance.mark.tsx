@@ -51,7 +51,10 @@ function Page() {
   const sessionLabel = useMemo(() => {
     const map = new Map<number, string>();
     for (const s of sessions.data ?? []) {
-      map.set(s.id, `${shortDate(s.attendance_date)} · ${classes.name(s.class_field)} · ${humanize(s.session_type)}`);
+      map.set(
+        s.id,
+        `${shortDate(s.attendance_date)} · ${classes.name(s.class_field)} · ${humanize(s.session_type)}`,
+      );
     }
     return map;
   }, [sessions.data, classes]);
@@ -109,9 +112,18 @@ function Page() {
           type: "select",
           required: true,
           options: openSessions,
-          hint: openSessions.length ? undefined : "No open sessions. Open one under Attendance › Sessions.",
+          hint: openSessions.length
+            ? undefined
+            : "No open sessions. Open one under Attendance › Sessions.",
         },
-        { name: "student", label: "Student", type: "select", required: true, half: true, options: students.options },
+        {
+          name: "student",
+          label: "Student",
+          type: "select",
+          required: true,
+          half: true,
+          options: students.options,
+        },
         {
           name: "status",
           label: "Status",

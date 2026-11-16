@@ -39,13 +39,24 @@ type Row = {
 };
 
 const columns: Column<Row>[] = [
-  { key: "number", header: "Invoice", sortable: true, render: (row) => <span className="font-mono text-xs">{row.number}</span> },
+  {
+    key: "number",
+    header: "Invoice",
+    sortable: true,
+    render: (row) => <span className="font-mono text-xs">{row.number}</span>,
+  },
   { key: "student", header: "Student", sortable: true },
   { key: "term", header: "Term" },
   { key: "issued", header: "Issued" },
   { key: "due", header: "Due date", sortable: true, value: (row) => row.dueRaw },
   { key: "amount", header: "Amount", align: "right" },
-  { key: "balance", header: "Balance", align: "right", sortable: true, value: (row) => row.balanceValue },
+  {
+    key: "balance",
+    header: "Balance",
+    align: "right",
+    sortable: true,
+    value: (row) => row.balanceValue,
+  },
   { key: "status", header: "Status", render: (row) => <StatusBadge status={row.status} /> },
 ];
 
@@ -93,7 +104,14 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "student", label: "Student", type: "select", required: true, half: true, options: students.options },
+        {
+          name: "student",
+          label: "Student",
+          type: "select",
+          required: true,
+          half: true,
+          options: students.options,
+        },
         {
           name: "academic_year",
           label: "Academic year",
@@ -103,7 +121,15 @@ function Page() {
           options: years.options,
           defaultValue: currentId(years.rows),
         },
-        { name: "term", label: "Term", type: "select", required: true, half: true, options: terms.options, defaultValue: currentId(terms.rows) },
+        {
+          name: "term",
+          label: "Term",
+          type: "select",
+          required: true,
+          half: true,
+          options: terms.options,
+          defaultValue: currentId(terms.rows),
+        },
         {
           name: "subtotal",
           label: "Amount (KES)",

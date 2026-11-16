@@ -34,7 +34,11 @@ type Row = {
 
 const columns: Column<Row>[] = [
   { key: "name", header: "Category", sortable: true },
-  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  {
+    key: "code",
+    header: "Code",
+    render: (row) => <span className="font-mono text-xs">{row.code}</span>,
+  },
   { key: "mandatory", header: "Mandatory" },
   { key: "structures", header: "Structures", align: "right" },
   { key: "amount", header: "Amount range", align: "right" },
@@ -87,10 +91,29 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "name", label: "Category name", required: true, half: true, placeholder: "Tuition" },
+        {
+          name: "name",
+          label: "Category name",
+          required: true,
+          half: true,
+          placeholder: "Tuition",
+        },
         { name: "code", label: "Code", required: true, half: true, placeholder: "TUITION" },
-        { name: "is_mandatory", label: "Mandatory", type: "select", half: true, options: BOOLEAN_OPTIONS, defaultValue: "true" },
-        { name: "display_order", label: "Display order", type: "number", half: true, defaultValue: "0" },
+        {
+          name: "is_mandatory",
+          label: "Mandatory",
+          type: "select",
+          half: true,
+          options: BOOLEAN_OPTIONS,
+          defaultValue: "true",
+        },
+        {
+          name: "display_order",
+          label: "Display order",
+          type: "number",
+          half: true,
+          defaultValue: "0",
+        },
         { name: "description", label: "Description", type: "textarea" },
       ]}
     />

@@ -3,14 +3,7 @@ import { useMemo } from "react";
 import { ModulePage } from "@/components/erp/module-page";
 import type { Column } from "@/components/erp/data-table";
 import { StatusBadge } from "@/components/erp/status-badge";
-import {
-  pageHead,
-  payload,
-  useCreate,
-  useList,
-  useLookup,
-  useSchoolField,
-} from "@/lib/resources";
+import { pageHead, payload, useCreate, useList, useLookup, useSchoolField } from "@/lib/resources";
 
 const DESCRIPTION = "Stream capacity, enrolment and class teachers.";
 
@@ -85,10 +78,30 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "academic_class", label: "Class", type: "select", required: true, half: true, options: classes.options },
+        {
+          name: "academic_class",
+          label: "Class",
+          type: "select",
+          required: true,
+          half: true,
+          options: classes.options,
+        },
         { name: "name", label: "Stream name", required: true, half: true, placeholder: "East" },
-        { name: "capacity", label: "Capacity", type: "number", required: true, half: true, defaultValue: "30" },
-        { name: "class_teacher", label: "Class teacher", type: "select", half: true, options: users.options },
+        {
+          name: "capacity",
+          label: "Capacity",
+          type: "number",
+          required: true,
+          half: true,
+          defaultValue: "30",
+        },
+        {
+          name: "class_teacher",
+          label: "Class teacher",
+          type: "select",
+          half: true,
+          options: users.options,
+        },
       ]}
     />
   );

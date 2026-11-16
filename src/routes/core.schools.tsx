@@ -26,7 +26,11 @@ type Row = {
 
 const columns: Column<Row>[] = [
   { key: "name", header: "School", sortable: true },
-  { key: "code", header: "Code", render: (row) => <span className="font-mono text-xs">{row.code}</span> },
+  {
+    key: "code",
+    header: "Code",
+    render: (row) => <span className="font-mono text-xs">{row.code}</span>,
+  },
   { key: "city", header: "City", sortable: true },
   { key: "country", header: "Country" },
   { key: "email", header: "Email" },
@@ -77,9 +81,21 @@ function Page() {
         { name: "code", label: "School code", required: true, half: true },
         { name: "registration_number", label: "Registration number", required: true, half: true },
         { name: "email", label: "Contact email", type: "email", required: true, half: true },
-        { name: "phone_number", label: "Phone number", required: true, half: true, placeholder: "+254712345678" },
+        {
+          name: "phone_number",
+          label: "Phone number",
+          required: true,
+          half: true,
+          placeholder: "+254712345678",
+        },
         { name: "city", label: "City / town", half: true },
-        { name: "country", label: "Country code", half: true, placeholder: "KE", hint: "Two-letter code" },
+        {
+          name: "country",
+          label: "Country code",
+          half: true,
+          placeholder: "KE",
+          hint: "Two-letter code",
+        },
         { name: "address", label: "Address", type: "textarea" },
       ]}
     />

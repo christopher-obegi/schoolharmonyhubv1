@@ -38,7 +38,16 @@ export type Field = {
   name: string;
   label: string;
   /** "checkboxes": several options; the value is the chosen option values joined by commas. */
-  type?: "text" | "email" | "password" | "number" | "date" | "select" | "textarea" | "file" | "checkboxes";
+  type?:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "date"
+    | "select"
+    | "textarea"
+    | "file"
+    | "checkboxes";
   options?: Option[] | undefined;
   placeholder?: string | undefined;
   required?: boolean | undefined;
@@ -101,7 +110,8 @@ export function RecordDialog({
   const validate = () => {
     const next: Record<string, string> = {};
     for (const field of fields) {
-      const raw = field.type === "file" ? (files[field.name]?.name ?? "") : (values[field.name] ?? "").trim();
+      const raw =
+        field.type === "file" ? (files[field.name]?.name ?? "") : (values[field.name] ?? "").trim();
       if (field.required && !raw) {
         next[field.name] = `${field.label} is required`;
         continue;
@@ -140,7 +150,9 @@ export function RecordDialog({
       setErrors(known);
       const unmatched = Object.keys(fieldErrors).length > Object.keys(known).length;
       const message = err instanceof Error ? err.message : "Could not save";
-      setFormError(Object.keys(known).length && !unmatched ? "Please fix the highlighted fields." : message);
+      setFormError(
+        Object.keys(known).length && !unmatched ? "Please fix the highlighted fields." : message,
+      );
     } finally {
       setSaving(false);
     }
@@ -167,10 +179,7 @@ export function RecordDialog({
               </Label>
 
               {field.type === "select" ? (
-                <Select
-                  value={values[field.name] ?? ""}
-                  onValueChange={(v) => set(field.name, v)}
-                >
+                <Select value={values[field.name] ?? ""} onValueChange={(v) => set(field.name, v)}>
                   <SelectTrigger id={field.name}>
                     <SelectValue placeholder={field.placeholder ?? "Select…"} />
                   </SelectTrigger>
@@ -183,7 +192,10 @@ export function RecordDialog({
                   </SelectContent>
                 </Select>
               ) : field.type === "checkboxes" ? (
-                <div id={field.name} className="grid gap-2 rounded-md border border-input p-3 sm:grid-cols-2">
+                <div
+                  id={field.name}
+                  className="grid gap-2 rounded-md border border-input p-3 sm:grid-cols-2"
+                >
                   {(field.options ?? []).map((option) => {
                     const value = optionValue(option);
                     const chosen = (values[field.name] ?? "").split(",").filter(Boolean);
@@ -196,7 +208,10 @@ export function RecordDialog({
                           onChange={(e) =>
                             set(
                               field.name,
-                              (e.target.checked ? [...chosen, value] : chosen.filter((v) => v !== value)).join(","),
+                              (e.target.checked
+                                ? [...chosen, value]
+                                : chosen.filter((v) => v !== value)
+                              ).join(","),
                             )
                           }
                         />
@@ -249,7 +264,10 @@ export function RecordDialog({
         </div>
 
         {formError ? (
-          <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
+          <p
+            role="alert"
+            className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive"
+          >
             {formError}
           </p>
         ) : null}

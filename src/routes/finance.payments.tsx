@@ -38,7 +38,12 @@ type Row = {
 };
 
 const columns: Column<Row>[] = [
-  { key: "reference", header: "Payment", sortable: true, render: (row) => <span className="font-mono text-xs">{row.reference}</span> },
+  {
+    key: "reference",
+    header: "Payment",
+    sortable: true,
+    render: (row) => <span className="font-mono text-xs">{row.reference}</span>,
+  },
   { key: "receipt", header: "Receipt" },
   { key: "student", header: "Student", sortable: true },
   { key: "invoice", header: "Invoice" },
@@ -58,7 +63,9 @@ function Page() {
   const schoolField = useSchoolField();
 
   const rows = useMemo<Row[]>(() => {
-    const receiptFor = new Map((receipts.data ?? []).map((r) => [Number(r.payment), String(r.receipt_number)]));
+    const receiptFor = new Map(
+      (receipts.data ?? []).map((r) => [Number(r.payment), String(r.receipt_number)]),
+    );
     return (data ?? []).map((p) => ({
       id: p.id,
       reference: String(p.payment_reference || `#${p.id}`),
@@ -106,19 +113,45 @@ function Page() {
       }}
       createFields={[
         schoolField,
-        { name: "invoice", label: "Invoice", type: "select", required: true, half: true, options: invoiceOptions },
+        {
+          name: "invoice",
+          label: "Invoice",
+          type: "select",
+          required: true,
+          half: true,
+          options: invoiceOptions,
+        },
         {
           name: "payment_method",
           label: "Method",
           type: "select",
           required: true,
           half: true,
-          options: choices("MOBILE_MONEY", "BANK_TRANSFER", "CHEQUE", "CASH", "CREDIT_CARD", "DEBIT_CARD", "ONLINE_PAYMENT"),
+          options: choices(
+            "MOBILE_MONEY",
+            "BANK_TRANSFER",
+            "CHEQUE",
+            "CASH",
+            "CREDIT_CARD",
+            "DEBIT_CARD",
+            "ONLINE_PAYMENT",
+          ),
           defaultValue: "MOBILE_MONEY",
         },
         { name: "amount", label: "Amount (KES)", type: "number", required: true, half: true },
-        { name: "transaction_reference", label: "Transaction reference", half: true, placeholder: "M-Pesa code" },
-        { name: "payment_date", label: "Payment date", type: "date", half: true, defaultValue: new Date().toISOString().slice(0, 10) },
+        {
+          name: "transaction_reference",
+          label: "Transaction reference",
+          half: true,
+          placeholder: "M-Pesa code",
+        },
+        {
+          name: "payment_date",
+          label: "Payment date",
+          type: "date",
+          half: true,
+          defaultValue: new Date().toISOString().slice(0, 10),
+        },
         {
           name: "status",
           label: "Status",

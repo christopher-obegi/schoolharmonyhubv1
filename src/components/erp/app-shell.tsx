@@ -75,8 +75,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
             </p>
             <ul className="space-y-0.5">
               {group.items.map((item) => {
-                const active =
-                  item.url === "/" ? pathname === "/" : pathname.startsWith(item.url);
+                const active = item.url === "/" ? pathname === "/" : pathname.startsWith(item.url);
                 return (
                   <li key={item.url}>
                     <Link

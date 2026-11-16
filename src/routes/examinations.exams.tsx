@@ -91,27 +91,33 @@ function Page() {
     [data, examTypes, classes, subjects, terms],
   );
 
-  const addExamType =
-    writable ? (
-      <RecordDialog
-        trigger={
-          <Button variant="outline">
-            <Plus className="mr-1 size-4" /> Add exam type
-          </Button>
-        }
-        title="Add exam type"
-        description="Exam types group exams, e.g. Opener, Mid-term, End-term."
-        fields={[
-          schoolField,
-          { name: "name", label: "Name", required: true, half: true, placeholder: "End-Term Exam" },
-          { name: "code", label: "Code", required: true, half: true, placeholder: "ENDTERM", hint: "Unique" },
-          { name: "description", label: "Description", type: "textarea" },
-        ]}
-        onSubmit={async (values) => {
-          await createType(payload(values));
-        }}
-      />
-    ) : null;
+  const addExamType = writable ? (
+    <RecordDialog
+      trigger={
+        <Button variant="outline">
+          <Plus className="mr-1 size-4" /> Add exam type
+        </Button>
+      }
+      title="Add exam type"
+      description="Exam types group exams, e.g. Opener, Mid-term, End-term."
+      fields={[
+        schoolField,
+        { name: "name", label: "Name", required: true, half: true, placeholder: "End-Term Exam" },
+        {
+          name: "code",
+          label: "Code",
+          required: true,
+          half: true,
+          placeholder: "ENDTERM",
+          hint: "Unique",
+        },
+        { name: "description", label: "Description", type: "textarea" },
+      ]}
+      onSubmit={async (values) => {
+        await createType(payload(values));
+      }}
+    />
+  ) : null;
 
   return (
     <ModulePage<Row>
@@ -143,10 +149,15 @@ function Page() {
                   confirmLabel="Publish"
                   onConfirm={async () => {
                     try {
-                      const res = await api<{ published: number }>(`/api/examinations/exams/${row.id}/publish/`, {
-                        method: "POST",
-                      });
-                      toast.success(`Published ${res.published} result${res.published === 1 ? "" : "s"}`);
+                      const res = await api<{ published: number }>(
+                        `/api/examinations/exams/${row.id}/publish/`,
+                        {
+                          method: "POST",
+                        },
+                      );
+                      toast.success(
+                        `Published ${res.published} result${res.published === 1 ? "" : "s"}`,
+                      );
                       await queryClient.invalidateQueries({ queryKey: ["api", "exams"] });
                       await queryClient.invalidateQueries({ queryKey: ["api", "results"] });
                     } catch (err) {
@@ -162,7 +173,12 @@ function Page() {
         await create(payload(values, { numbers: ["total_marks", "pass_mark"] }));
       }}
       createFields={[
-        { name: "name", label: "Exam name", required: true, placeholder: "Form 1 Mathematics End-Term" },
+        {
+          name: "name",
+          label: "Exam name",
+          required: true,
+          placeholder: "Form 1 Mathematics End-Term",
+        },
         schoolField,
         {
           name: "exam_type",
@@ -178,7 +194,16 @@ function Page() {
           label: "Assessment",
           type: "select",
           half: true,
-          options: choices("CAT", "ASSIGNMENT", "PRACTICAL", "MIDTERM", "PROJECT", "END_TERM", "MOCK", "FINAL_EXAMINATION"),
+          options: choices(
+            "CAT",
+            "ASSIGNMENT",
+            "PRACTICAL",
+            "MIDTERM",
+            "PROJECT",
+            "END_TERM",
+            "MOCK",
+            "FINAL_EXAMINATION",
+          ),
           defaultValue: "END_TERM",
         },
         {
@@ -190,12 +215,40 @@ function Page() {
           options: years.options,
           defaultValue: currentId(years.rows),
         },
-        { name: "term", label: "Term", type: "select", required: true, half: true, options: terms.options, defaultValue: currentId(terms.rows) },
-        { name: "class_name", label: "Class", type: "select", required: true, half: true, options: classes.options },
+        {
+          name: "term",
+          label: "Term",
+          type: "select",
+          required: true,
+          half: true,
+          options: terms.options,
+          defaultValue: currentId(terms.rows),
+        },
+        {
+          name: "class_name",
+          label: "Class",
+          type: "select",
+          required: true,
+          half: true,
+          options: classes.options,
+        },
         { name: "stream", label: "Stream", type: "select", half: true, options: streams.options },
-        { name: "subject", label: "Subject", type: "select", required: true, half: true, options: subjects.options },
+        {
+          name: "subject",
+          label: "Subject",
+          type: "select",
+          required: true,
+          half: true,
+          options: subjects.options,
+        },
         { name: "code", label: "Code", half: true },
-        { name: "total_marks", label: "Total marks", type: "number", half: true, defaultValue: "100" },
+        {
+          name: "total_marks",
+          label: "Total marks",
+          type: "number",
+          half: true,
+          defaultValue: "100",
+        },
         { name: "pass_mark", label: "Pass mark", type: "number", half: true, defaultValue: "40" },
         { name: "start_date", label: "Start date", type: "date", half: true },
         { name: "end_date", label: "End date", type: "date", half: true },
